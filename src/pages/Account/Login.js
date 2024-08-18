@@ -46,7 +46,7 @@ export default function Login() {
                                     </a>
                                 </button>
                             </div>
-                            <h1 className="text-3xl font-bold mb-10 text-[#4F5153]">Bennros Shell</h1>
+                            <h1 className="text-3xl font-bold mb-10 text-[#4F5153]">Bennrosgit Shell</h1>
                             <ActionButton api_route={`/api/logInUser`} method="POST" className="max-w-md w-full" form_data={[]}>
                                 <div className="mb-8 relative">
                                     <div className="relative">
