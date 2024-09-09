@@ -1,22 +1,27 @@
 import { useState } from "react";
 import NavbarMain from "../../../lib/components/navbars/NavbarMain";
-import DailySales from "../../../lib/components/DailySales";
+import ChargeAccounts from "../../../lib/components/ChargeAccounts";
+import WetStock from "../../../lib/components/WetStock";
 import FuelPrices from "../../../lib/components/FuelPrices";
 import DBManager from "../../../lib/db/DBManager";
 import { DB_CONF } from "../../../lib/db/DBConf";
 import AdminDashboard from "../../../lib/components/Dashboard/AdminDashboard";
 import { Chevron_right } from "../../../lib/components/HeroIcons";
 
-export default function Home({userLogIn, allBranch}) {
+export default function Home({userLogIn, allBranch, allFuelPrices, allRegister}) {
     const [selectedContent, setSelectedContent] = useState("");
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
+    const handleBackToHome = () => {
+        setSelectedContent("");
+    };
+
     return (
         <div>
-            <div className="flex flex-row">
+            <div className="flex">
                 <div
                     className={` h-screen overflow-hidden flex  bg-stone-900 transition-all duration-300 ease-in-out ${
-                        isSidebarExpanded ? "md:w-[350px] w-[200px]" : "md:w-[50px] w-[50px]"
+                        isSidebarExpanded ? "md:w-[350px] w-[200px]" : "md:w-0 w-[50px]"
                     }`}
                 >
                     
@@ -108,49 +113,48 @@ export default function Home({userLogIn, allBranch}) {
                                 </a>
                             </div>
                         </div>
-                    )}
-                    
-                    <div className="flex items-center justify-end p-2">
-                        <button
-                            onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-                            className="text-gray-400 hover:text-gray-100 transition-colors duration-150 ease-in-out focus:outline-none"
-                        >
-                            <Chevron_right size={24} />
-                        </button>
-                    </div>
+                    )} 
+                </div>
+                <div className="absolute  mt-[50px] items-center border border-red-600 h-[49px] justify-end p-2">
+                    <button
+                        onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+                        className="text-gray-400 hover:text-gray-100 transition-colors duration-150 ease-in-out focus:outline-none"
+                    >
+                        <Chevron_right size={24} />
+                    </button>
                 </div>
 
                 {selectedContent === "fuel_prices" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} />
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <FuelPrices/>
+                                <FuelPrices userLogIn={userLogIn} allFuelPrices={allFuelPrices}/>
                             </div>
                         </div>
                     </div>
                 ) : selectedContent === "charge_acc" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} />
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <DailySales/>
-                                <div>charge account</div>
+                                <ChargeAccounts userLogIn={userLogIn}/>
                             </div>
                         </div>
                     </div>
                 ) : selectedContent === "wet_stock" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} />
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
+                                <WetStock/>
                                 <div>Wet stock deliveries </div>
                             </div>
                         </div>
                     </div>
                 ) : selectedContent === "daily_deposit" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch}/>
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome}/>
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
                                 <div>Daily Deposit</div>
@@ -159,7 +163,7 @@ export default function Home({userLogIn, allBranch}) {
                     </div>
                 ) : selectedContent === "daily_sales" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} />
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
                                 <div>daily_sales</div>
@@ -168,7 +172,7 @@ export default function Home({userLogIn, allBranch}) {
                     </div>
                 ) : selectedContent === "monitoring" ?(
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} />
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
                                 <div>Transaction Monitoring</div>
@@ -180,7 +184,7 @@ export default function Home({userLogIn, allBranch}) {
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <div><AdminDashboard allBranch={allBranch}/></div>
+                                <div><AdminDashboard allBranch={allBranch} allRegister={allRegister} userLogIn={userLogIn}/></div>
                             </div>
                         </div>
                     </div>
@@ -197,11 +201,15 @@ export async function getServerSideProps({req, res, query}) {
 
     let userLogIn = await db_conn.getRegisterById(query.id);
     let allBranch = await db_conn.getBranch();
+    let allFuelPrices = await db_conn.getFuelPrices();
+    let allRegister = await db_conn.getRegister();
 
     return {
         props: {
             userLogIn: userLogIn,
             allBranch: allBranch,
+            allFuelPrices: allFuelPrices,
+            allRegister: allRegister,
         },
     }
 }
