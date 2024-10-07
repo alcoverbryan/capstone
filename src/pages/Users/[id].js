@@ -3,6 +3,9 @@ import NavbarMain from "../../../lib/components/navbars/NavbarMain";
 import ChargeAccounts from "../../../lib/components/ChargeAccounts";
 import WetStock from "../../../lib/components/WetStock";
 import FuelPrices from "../../../lib/components/FuelPrices";
+import DailyDeposit from "../../../lib/components/DailyDeposit";
+import DailyDales from "../../../lib/components/DailySales";
+import TransactionMonitoring from "../../../lib/components/TransactionMonitoring";
 import DBManager from "../../../lib/db/DBManager";
 import { DB_CONF } from "../../../lib/db/DBConf";
 import AdminDashboard from "../../../lib/components/Dashboard/AdminDashboard";
@@ -28,7 +31,6 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                         isSidebarExpanded ? "md:w-[350px] w-[200px]" : "md:w-0 w-[50px]"
                     }`}
                 >
-                    
                     {isSidebarExpanded && (
                         <div className=" flex flex-col items-center justify-center">
                             <div className=" border-gray-700 border-0 w-full font-medium mb-2">
@@ -119,7 +121,6 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                         </div>
                     )} 
                 </div>
-  
                 {selectedContent === "fuel_prices" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
@@ -144,7 +145,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
                                 <WetStock/>
-                                <div>Wet stock deliveries </div>
+                                <div></div>
                             </div>
                         </div>
                     </div>
@@ -153,7 +154,8 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar}/>
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <div>Daily Deposit</div>
+                                <DailyDeposit/>
+                                <div></div>
                             </div>
                         </div>
                     </div>
@@ -162,7 +164,8 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <div>daily_sales</div>
+                                <DailyDales/>
+                                <div></div>
                             </div>
                         </div>
                     </div>
@@ -171,7 +174,8 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <div>Transaction Monitoring</div>
+                                <TransactionMonitoring/>
+                                <div></div>
                             </div>
                         </div>
                     </div>

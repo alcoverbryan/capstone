@@ -24,6 +24,7 @@ async function handlePostRequest(db_conn, req, res, query) {
             req.body.total,
             req.body.rephil,
             req.body.shell_affinis,
+            req.body.date,
         );
 
 
