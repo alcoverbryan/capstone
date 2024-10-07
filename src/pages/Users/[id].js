@@ -45,7 +45,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                                         }}
                                     /> */}
                                     <span className={` md:text-xl text-[12px] font-medium  duration-300 ease-in-out ${isSidebarExpanded ? "opacity-100" : "opacity-0"}`}>
-                                        Fuel prices
+                                        Fuel Prices
                                     </span>
                                 </a>
                             </div>
