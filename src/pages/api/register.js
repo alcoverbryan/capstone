@@ -21,6 +21,7 @@ export default async function handler(req, res) {
 
 async function handleCreateUserRequest(db_conn, req, res) {
     try {
+        
         const hashedPassword = hashPassword(req.body.password);
         let position;
         const existingUsers = await db_conn.getRegister(); 

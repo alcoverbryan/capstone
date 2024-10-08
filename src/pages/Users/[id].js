@@ -106,18 +106,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                                 </a>
                             </div>
 
-                            <div className=" border-gray-700 w-full  font-medium  mb-2">
-                                <a
-                                    href="#"
-                                    className={`flex items-center md:gap-6 gap-4  md:px-5 px-3  hover:text-gray-100 text-gray-400 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline p-3 w-full text-center cursor-pointer 
-                                    ${selectedContent === "monitoring" ? "text-white" : ""}`}
-                                    onClick={() => setSelectedContent("monitoring")}
-                                >
-                                    <span className={` md:text-xl text-[12px] text-nowrap font-medium duration-300 ease-in-out ${isSidebarExpanded ? "opacity-100" : "opacity-0"}`}>
-                                        Transaction Monitoring
-                                    </span>
-                                </a>
-                            </div>
+                           
                         </div>
                     )} 
                 </div>
@@ -128,7 +117,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                             <div className="text-center">
                                 <FuelPrices userLogIn={userLogIn} allFuelPrices={allFuelPrices}/>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 ) : selectedContent === "charge_acc" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
@@ -169,17 +158,8 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                             </div>
                         </div>
                     </div>
-                ) : selectedContent === "monitoring" ?(
-                    <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
-                        <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
-                            <div className="text-center">
-                                <TransactionMonitoring/>
-                                <div></div>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
+                ) : 
+                 (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} toggleSidebar={toggleSidebar}/>
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
