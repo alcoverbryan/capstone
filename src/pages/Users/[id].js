@@ -133,7 +133,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                             <div className="text-center">
                                 <FuelPrices userLogIn={userLogIn} allFuelPrices={allFuelPrices}/>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 ) : selectedContent === "charge_acc" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
