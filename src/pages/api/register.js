@@ -9,6 +9,7 @@ export default async function handler(req, res) {
 
         if (req.method === "POST") {
             await handleCreateUserRequest(db_conn, req, res);
+            
         } else {
             res.status(200).json({ name: "Test" });
         }
