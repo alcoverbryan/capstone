@@ -5,13 +5,12 @@ import { Chevron_left, Key, User, XmarkIcon } from "../../../lib/components/Hero
 export default function Forgot_pass() {
     const [isShowScrollbar, setIsShowScrollbar] = useState(false);
 
-    // Effect to handle window resize and scrollbar visibility
     useEffect(() => {
         const handleResize = () => {
-            setIsShowScrollbar(window.innerWidth <= 768); // Adjust threshold as needed
+            setIsShowScrollbar(window.innerWidth <= 768); 
         };
 
-        handleResize(); // Initial call to set the initial state
+        handleResize(); 
         window.addEventListener("resize", handleResize);
 
         return () => {
@@ -43,19 +42,19 @@ export default function Forgot_pass() {
                                 <Image src="/image/shell-logo.png" alt="Logo" width={100} height={100} />
                             </div>
                             <h1 className="text-3xl font-bold mb-10 text-[#4F5153]">Forgot Password </h1>
-                            <p className=" text-[#797e83] mb-8 text-wrap">Enter your Username and we will see if you are registerd to our system</p>
-                            <form action="/login" method="post" className="max-w-md w-full">
+                            <p className=" text-[#797e83] mb-8 text-wrap">Enter your Email and we will see if you are registerd to our system</p>
+                            <form action="/api/sendOTPEmail" method="post" className="max-w-md w-full">
                                 <div className="mb-8 relative">
                                     <div className="relative">
                                         <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                             <User className="h-5"/>
                                         </span>
-                                        <input type="text" id="username" name="username" placeholder="Username" required className="w-full shadow-md p-2 pl-10 border-b bg-[#D9D9D9] border rounded-lg outline-none shadow-custom placeholder-custom" />
+                                        <input type="email" id="email" name="email" placeholder="Email" required className="w-full shadow-md p-2 pl-10 border-b bg-[#D9D9D9] border rounded-lg outline-none shadow-custom placeholder-custom" />
                                     </div>
                                 </div>
                                                   
                                 <button type="submit" className="bg-red-500 text-white px-4 w-full py-2 mb-6 rounded-lg  transition-transform transform duration-300 hover:scale-105">
-                                    <a href="/Account/Reset_pass">Check It</a>
+                                    <a>Check It</a>
                                 </button>
 
                                 <div className="flex flex-col justify center items-center mb-4">

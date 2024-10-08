@@ -73,7 +73,7 @@ export default function Login() {
                                     <p className="text-[18px] text-[#4F5153]">New on our platform?</p>
                                     <a href="/Account/Register" className="text-red-500 text-[18px]">Create New Account</a>
                                 </div>
-                                <a href="/Account/Forgot_pass" className="text-red-500 block">Forgot password?</a>
+                                <a href="/Account/CheckEmail" className="text-red-500 block">Forgot password?</a>
                             </ActionButton>
                             
                         </div>
