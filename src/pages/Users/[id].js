@@ -5,7 +5,6 @@ import WetStock from "../../../lib/components/WetStock";
 import FuelPrices from "../../../lib/components/FuelPrices";
 import DailyDeposit from "../../../lib/components/DailyDeposit";
 import DailyDales from "../../../lib/components/DailySales";
-import TransactionMonitoring from "../../../lib/components/TransactionMonitoring";
 import DBManager from "../../../lib/db/DBManager";
 import { DB_CONF } from "../../../lib/db/DBConf";
 import AdminDashboard from "../../../lib/components/Dashboard/AdminDashboard";
@@ -105,14 +104,6 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                            
                         </div>
                     )} 
-                </div>
-                <div className="absolute  mt-[500px] items-center ">
-                    <button
-                        onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-                        className="text-gray-400 hover:text-gray-100 transition-colors duration-150 ease-in-out focus:outline-none"
-                    >
-                        <Chevron_right size={24} />
-                    </button>
                 </div>
 
                 {selectedContent === "fuel_prices" ? (
