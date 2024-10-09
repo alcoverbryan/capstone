@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import NavbarMain from "../../../lib/components/navbars/NavbarMain";
 import ChargeAccounts from "../../../lib/components/ChargeAccounts";
@@ -16,6 +17,10 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
 
     const handleBackToHome = () => {
         setSelectedContent("");
+    };
+
+    const toggleSidebar = () => {
+        setIsSidebarExpanded(!isSidebarExpanded);
     };
 
     return (
@@ -105,10 +110,9 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                         </div>
                     )} 
                 </div>
-
                 {selectedContent === "fuel_prices" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} />
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
                                 <FuelPrices userLogIn={userLogIn} allFuelPrices={allFuelPrices}/>
@@ -117,7 +121,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                     </div>
                 ) : selectedContent === "charge_acc" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} />
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar}  />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
                                 <ChargeAccounts userLogIn={userLogIn}/>
@@ -126,7 +130,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                     </div>
                 ) : selectedContent === "wet_stock" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} />
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
                                 <WetStock/>
@@ -136,7 +140,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                     </div>
                 ) : selectedContent === "daily_deposit" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome}/>
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar}/>
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
                                 <DailyDeposit/>
@@ -146,7 +150,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                     </div>
                 ) : selectedContent === "daily_sales" ? (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} />
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
                                 <DailyDales/>
@@ -157,14 +161,15 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                 ) : 
                  (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
-                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} />
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} toggleSidebar={toggleSidebar}/>
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
                                 <div><AdminDashboard allBranch={allBranch} allRegister={allRegister} userLogIn={userLogIn}/></div>
                             </div>
                         </div>
                     </div>
-                ) }
+                )}
+
             </div>
         </div>
     );
