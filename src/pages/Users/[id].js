@@ -11,7 +11,7 @@ import { DB_CONF } from "../../../lib/db/DBConf";
 import AdminDashboard from "../../../lib/components/Dashboard/AdminDashboard";
 import { Chevron_right } from "../../../lib/components/HeroIcons";
 
-export default function Home({userLogIn, allBranch, allFuelPrices, allRegister}) {
+export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, allChargeAccount}) {
     const [selectedContent, setSelectedContent] = useState("");
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
@@ -124,7 +124,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister})
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar}  />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <ChargeAccounts userLogIn={userLogIn}/>
+                                <ChargeAccounts userLogIn={userLogIn} allChargeAccount={allChargeAccount}/>
                             </div>
                         </div>
                     </div>
@@ -182,6 +182,7 @@ export async function getServerSideProps({req, res, query}) {
     let userLogIn = await db_conn.getRegisterById(query.id);
     let allBranch = await db_conn.getBranch();
     let allFuelPrices = await db_conn.getFuelPrices();
+    let allChargeAccount = await db_conn.getChargeAccount();
     let allRegister = await db_conn.getRegister();
 
     return {
@@ -189,6 +190,7 @@ export async function getServerSideProps({req, res, query}) {
             userLogIn: userLogIn,
             allBranch: allBranch,
             allFuelPrices: allFuelPrices,
+            allChargeAccount: allChargeAccount,
             allRegister: allRegister,
         },
     }
