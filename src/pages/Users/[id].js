@@ -11,7 +11,7 @@ import { DB_CONF } from "../../../lib/db/DBConf";
 import AdminDashboard from "../../../lib/components/Dashboard/AdminDashboard";
 import { Chevron_right } from "../../../lib/components/HeroIcons";
 
-export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, allChargeAccount}) {
+export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, allChargeAccount, allDailySales, allActualPOS}) {
     const [selectedContent, setSelectedContent] = useState("");
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
@@ -153,7 +153,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <DailyDales/>
+                                <DailyDales userLogIn={userLogIn} allDailySales={allDailySales} allActualPOS={allActualPOS}/>
                                 <div></div>
                             </div>
                         </div>
@@ -183,7 +183,9 @@ export async function getServerSideProps({req, res, query}) {
     let allBranch = await db_conn.getBranch();
     let allFuelPrices = await db_conn.getFuelPrices();
     let allChargeAccount = await db_conn.getChargeAccount();
+    let allDailySales= await db_conn.getDailySales();
     let allRegister = await db_conn.getRegister();
+    let allActualPOS = await db_conn.getActualPOS();
 
     return {
         props: {
@@ -191,6 +193,8 @@ export async function getServerSideProps({req, res, query}) {
             allBranch: allBranch,
             allFuelPrices: allFuelPrices,
             allChargeAccount: allChargeAccount,
+            allDailySales: allDailySales,
+            allActualPOS: allActualPOS,
             allRegister: allRegister,
         },
     }
