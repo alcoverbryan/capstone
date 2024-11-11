@@ -3,6 +3,9 @@ import { useState } from "react";
 import NavbarMain from "../../../lib/components/navbars/NavbarMain";
 import ChargeAccounts from "../../../lib/components/ChargeAccounts";
 import WetStock from "../../../lib/components/WetStock";
+import DailyDip from "../../../lib/components/WetStockContent/DailyDip";
+import DailySalesVol from "../../../lib/components/WetStockContent/DailySalesVol";
+import Inventory from "../../../lib/components/WetStockContent/Inventory";
 import FuelPrices from "../../../lib/components/FuelPrices";
 import DailyDeposit from "../../../lib/components/DailyDeposit";
 import DailyDales from "../../../lib/components/DailySales";
@@ -10,10 +13,13 @@ import DBManager from "../../../lib/db/DBManager";
 import { DB_CONF } from "../../../lib/db/DBConf";
 import AdminDashboard from "../../../lib/components/Dashboard/AdminDashboard";
 import { Chevron_right } from "../../../lib/components/HeroIcons";
+import LossOrGain from "../../../lib/components/WetStockContent/PriceG&L";
 
 export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, allChargeAccount, allDailySales, allActualPOS}) {
     const [selectedContent, setSelectedContent] = useState("");
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+    const [isWetStockDropdownOpen, setIsWetStockDropdownOpen] = useState(false); // New state for Wet Stock dropdown
+
 
     const handleBackToHome = () => {
         setSelectedContent("");
@@ -21,6 +27,10 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
 
     const toggleSidebar = () => {
         setIsSidebarExpanded(!isSidebarExpanded);
+    };
+
+    const toggleWetStockDropdown = () => {
+        setIsWetStockDropdownOpen(!isWetStockDropdownOpen);
     };
 
     return (
@@ -67,7 +77,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                                 </a>
                             </div>
 
-                            <div className=" border-gray-700 w-full font-medium mb-2">
+                            {/* <div className=" border-gray-700 w-full font-medium mb-2">
                                 <a
                                     href="#"
                                     className={`flex items-center md:gap-6 gap-4  md:px-5 px-3  hover:text-gray-100 text-gray-400 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline p-3 w-full text-center cursor-pointer 
@@ -78,6 +88,53 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                                         Wet stock deliveries 
                                     </span>
                                 </a>
+                            </div> */}
+
+                            <div className="border-gray-700 w-full font-medium mb-2">
+                                <a
+                                    href="#"
+                                    className={`flex items-center md:gap-6 gap-4  md:px-5 px-3  hover:text-gray-100 text-gray-400 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline p-3 w-full text-center cursor-pointer 
+                                        ${selectedContent === "wet_stock" ? "text-white" : ""
+                                    }`}
+                                    onClick={toggleWetStockDropdown} // Toggle dropdown on click
+                                >
+                                    <span className={`md:text-xl text-[12px] font-medium duration-300 ease-in-out ${isSidebarExpanded ? "opacity-100" : "opacity-0"}`}>
+                                        WetStock 
+                                    </span>
+                                </a>
+                                {/* Wet Stock Dropdown */}
+                                {isWetStockDropdownOpen && (
+                                    <div className="pl-10 text-gray-300">
+                                        <div
+                                            className={`text-[18px] py-1 cursor-pointer hover:text-gray-100 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline w-full 
+                                            ${selectedContent === "daily_dip" ? "text-white" : ""}`}      
+                                            onClick={() => setSelectedContent("daily_dip")}
+                                        >
+                                            Daily Dip
+                                        </div>
+                                        <div
+                                            className={`text-[18px] py-1 cursor-pointer hover:text-gray-100 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline w-full 
+                                            ${selectedContent === "daily_sales_vol" ? "text-white" : ""}`}      
+                                                onClick={() => setSelectedContent("daily_sales_vol")}
+                                        >
+                                            Daily Sales Vol
+                                        </div>
+                                        <div
+                                            className={`text-[18px] py-1 cursor-pointer hover:text-gray-100 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline w-full 
+                                            ${selectedContent === "inventory" ? "text-white" : ""}`}      
+                                            onClick={() => setSelectedContent("inventory")}
+                                        >
+                                            Inventory
+                                        </div>
+                                        <div
+                                            className={`text-[18px] py-1 cursor-pointer hover:text-gray-100 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline w-full 
+                                            ${selectedContent === "price_gain_loss" ? "text-white" : ""}`}                                            
+                                            onClick={() => setSelectedContent("price_gain_loss")}
+                                        >
+                                            Price Gain/Loss
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             <div className=" border-gray-700 w-full font-medium mb-2">
@@ -134,6 +191,46 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
                                 <WetStock/>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                ) : selectedContent === "daily_dip" ? (
+                    <div className="flex flex-col w-full h-screen overflow-hidden">
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
+                        <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
+                            <div className="text-center">
+                            <DailyDip/>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                ) : selectedContent === "daily_sales_vol" ? (
+                    <div className="flex flex-col w-full h-screen overflow-hidden">
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
+                        <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
+                            <div className="text-center">
+                            <DailySalesVol/>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                ) : selectedContent === "inventory" ? (
+                    <div className="flex flex-col w-full h-screen overflow-hidden">
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
+                        <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
+                        <div className="text-center">
+                            <Inventory/>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                ) : selectedContent === "price_gain_loss" ? (
+                    <div className="flex flex-col w-full h-screen overflow-hidden">
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
+                        <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
+                        <div className="text-center">
+                            <LossOrGain/>
                                 <div></div>
                             </div>
                         </div>

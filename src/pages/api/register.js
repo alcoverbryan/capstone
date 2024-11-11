@@ -32,7 +32,7 @@ async function handleCreateUserRequest(db_conn, req, res) {
             position = "Cashier ";
         }
 
-        await db_conn.register(req.body.profile_img, req.body.full_name, req.body.permanent_address, req.body.email, hashedPassword, req.body.username, req.body.phone_num, position, req.body.branch_id, req.body.otp);
+        await db_conn.register(req.body.full_name, req.body.permanent_address, req.body.email, hashedPassword, req.body.username, req.body.phone_num, position, req.body.branch_id, req.body.otp);
 
         res.redirect("/Account/Login");
     } catch (error) {
