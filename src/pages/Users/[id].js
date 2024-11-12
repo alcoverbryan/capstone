@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavbarMain from "../../../lib/components/navbars/NavbarMain";
 import ChargeAccounts from "../../../lib/components/ChargeAccounts";
 import WetStock from "../../../lib/components/WetStock";
@@ -10,13 +10,26 @@ import DBManager from "../../../lib/db/DBManager";
 import { DB_CONF } from "../../../lib/db/DBConf";
 import AdminDashboard from "../../../lib/components/Dashboard/AdminDashboard";
 import { Chevron_right } from "../../../lib/components/HeroIcons";
+import { useRouter } from "next/router";
 
 export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, allChargeAccount, allDailySales, allActualPOS}) {
-    const [selectedContent, setSelectedContent] = useState("");
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+    const router = useRouter();
+    const { view } = router.query; 
+    const [selectedContent, setSelectedContent] = useState("");
 
+    useEffect(() => {
+        if (view) {
+            setSelectedContent(view);
+        }
+    }, [view]);
     const handleBackToHome = () => {
         setSelectedContent("");
+    };
+    
+    const handleDailySave = () => {
+        setSelectedContent("daily_sales");
+        router.push("/?view=daily_sales"); 
     };
 
     const toggleSidebar = () => {
@@ -153,7 +166,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <DailyDales userLogIn={userLogIn} allDailySales={allDailySales} allActualPOS={allActualPOS}/>
+                                <DailyDales userLogIn={userLogIn} allDailySales={allDailySales} allActualPOS={allActualPOS} handleDailySave={handleDailySave}/>
                                 <div></div>
                             </div>
                         </div>

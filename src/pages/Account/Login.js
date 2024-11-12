@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Key, User, Xmark } from "../../../lib/components/HeroIcons";
+import { Eye, EyeSlash, Key, User, Xmark } from "../../../lib/components/HeroIcons";
 import ActionButton from "../../../lib/components/Forms/ActionButton";
 
 
 export default function Login() {
     const [isShowScrollbar, setIsShowScrollbar] = useState(false);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -60,12 +61,28 @@ export default function Login() {
                                 <div className="relative mb-10">
                                     <div className="relative">
                                         <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                            <Key className="h-5"/>
+                                            <Key className="h-5" />
                                         </span>
-                                        <input type="password" id="password" name="password" placeholder="Password" required className="w-full shadow-md p-2 pl-10 border-b bg-[#D9D9D9] border rounded-lg outline-none shadow-custom placeholder-custom" />
+                                        <input
+                                            type={isPasswordVisible ? "text" : "password"}
+                                            id="password"
+                                            name="password"
+                                            placeholder="Password"
+                                            required
+                                            className="w-full shadow-md p-2 pl-10 border-b bg-[#D9D9D9] border rounded-lg outline-none shadow-custom placeholder-custom"
+                                        />
+                                        <span
+                                            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                                            className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+                                        >
+                                            {isPasswordVisible ? (
+                                                <EyeSlash className="h-5 text-gray-700" />
+                                            ) : (
+                                                <Eye className="h-5 text-gray-700" />
+                                            )}
+                                        </span>
                                     </div>
                                 </div>
-                                
                                 
                                 <button type="submit" className="bg-red-500 text-white px-4 w-full py-2 mb-6 rounded-lg  transition-transform transform duration-300 hover:scale-105">Login</button>
 
