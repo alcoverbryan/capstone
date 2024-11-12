@@ -57,11 +57,11 @@ function generateOTP() {
 
 async function sendOTPEmail(email, otp) {
     var transporter = nodemailer.createTransport({
-        host: "sandbox.smtp.mailtrap.io",
-        port: 2525,
+        host: "smtp.gmail.com",
+        port: 465,
         auth: {
-          user: "d8a9105e1cf771",
-          pass: "80e3451ccc64e2"
+          user: "bryanalcover04@gmail.com",
+          pass: "lyye jsnb rjdh zcur"
         }
     });
 

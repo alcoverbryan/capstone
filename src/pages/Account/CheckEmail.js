@@ -43,7 +43,7 @@ export default function Forgot_pass() {
                             </div>
                             <h1 className="text-3xl font-bold mb-10 text-[#4F5153]">Forgot Password </h1>
                             <p className=" text-[#797e83] mb-8 text-wrap">Enter your Email and we will see if you are registerd to our system</p>
-                            <form action="/api/sendOTPEmail" method="post" className="max-w-md w-full">
+                            <form action="/api/sendOTPEmail" method="POST" className="max-w-md w-full">
                                 <div className="mb-8 relative">
                                     <div className="relative">
                                         <span className="absolute inset-y-0 left-0 flex items-center pl-3">

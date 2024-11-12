@@ -100,7 +100,7 @@ export default function Enter_OTP({ UserLogIn }) {
                         </div>
                         <input type="hidden" id="hiddenOtp" name="otp" />
                         {isResendVisible ? (
-                            <form action="/api/forgotPassword" method="POST">
+                            <form action="/api/sendOTPEmail" method="POST">
                                 <input type="hidden" id="email" name="email" value={UserLogIn.email} required></input>
                                 <button type="submit" className="mt-6 bg-black text-white py-2 px-4 w-full rounded-md ">
                                     Resend OTP
