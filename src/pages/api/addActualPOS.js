@@ -1,19 +1,18 @@
 import { DB_CONF } from "../../../lib/db/DBConf";
 import DBManager from "../../../lib/db/DBManager";
 
-export default async function handler(req, res, query) {
+export default async function handler(req, res) {
     const db_conn = new DBManager(DB_CONF.PATH);
     await db_conn.init();
 
     if (req.method === "POST") {
-        handlePostRequest(db_conn, req, res, query);
-        console.log(req.body)
+        await handlePostRequest(db_conn, req, res);
     } else {
         res.status(200).json({ name: "Test" });
     }
 }
 
-async function handlePostRequest(db_conn, req, res, query) {
+async function handlePostRequest(db_conn, req, res) {
     try {
         await db_conn.addActualPOS(
             req.body.user_id,
@@ -22,10 +21,13 @@ async function handlePostRequest(db_conn, req, res, query) {
             req.body.overShortage,
         );
 
-
-        res.redirect(`/Users/${req.body.user_id}`);
+        // Send a JSON response back
+        res.status(200).json({
+            message: "Actual POS data saved successfully",
+            userId: req.body.user_id,
+        });
     } catch (error) {
         console.error(error);
-        res.status(500).send("Internal Server Error");
+        res.status(500).json({ error: "Internal Server Error" });
     }
 }
