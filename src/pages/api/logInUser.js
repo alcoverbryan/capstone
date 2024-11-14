@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         if (req.method === "POST") {
             await handleLoginRequest(db_conn, req, res);
         } else {
-            res.status(200).json({ name: "Test" });
+            res.status(405).send("Method Not Allowed");
         }
     } catch (error) {
         console.error("Error initializing database:", error);
@@ -23,20 +23,22 @@ async function handleLoginRequest(db_conn, req, res) {
         const { username, password } = req.body;
         const user = await db_conn.users.findOne({ where: { username: username } });
 
-        if (user) {
-            const ldapMatch = user.username === username;
-            const passwordMatch = comparePasswords(password, user.password);
-            if (ldapMatch && passwordMatch) {
-                res.redirect(`/Users/${user.id}`);
-            } else {
-                res.status(401).send("Invalid username or password");
-            }
+        if (!user) {
+            // Username does not exist
+            res.status(401).json({ error: "Username does not exist" });
         } else {
-            res.redirect("/Account/User_error");
+            // Username exists, check password
+            const passwordMatch = comparePasswords(password, user.password);
+            if (passwordMatch) {
+                res.status(200).json({ userId: user.id });
+            } else {
+                // Password does not match
+                res.status(401).json({ error: "Incorrect password" });
+            }
         }
     } catch (error) {
         console.error("Error during login:", error);
-        res.status(500).send("Internal Server Error");
+        res.status(500).json({ error: "Internal Server Error" });
     }
 }
 
