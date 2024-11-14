@@ -21,19 +21,31 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
     const router = useRouter();
     const { view } = router.query; 
     const [selectedContent, setSelectedContent] = useState("");
-    const [isWetStockDropdownOpen, setIsWetStockDropdownOpen] = useState(false); // New state for Wet Stock dropdown
+    const [isWetStockDropdownOpen, setIsWetStockDropdownOpen] = useState(false); 
     useEffect(() => {
         if (view) {
             setSelectedContent(view);
         }
     }, [view]);
+
     const handleBackToHome = () => {
         setSelectedContent("");
+        router.push(`/Users/${userLogIn.id}/?view=" "`); 
+    };
+    
+    const handleFuelPricesSave = () => {
+        setSelectedContent("fuel_prices");
+        router.push("/?view=fuel_prices"); 
     };
     
     const handleDailySave = () => {
         setSelectedContent("daily_sales");
         router.push("/?view=daily_sales"); 
+    }; 
+
+    const handleChargeAccountSave = () => {
+        setSelectedContent("charge_acc");
+        router.push("/?view=charge_acc"); 
     };
 
     const toggleSidebar = () => {
@@ -87,19 +99,6 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                                     </span>
                                 </a>
                             </div>
-
-                            {/* <div className=" border-gray-700 w-full font-medium mb-2">
-                                <a
-                                    href="#"
-                                    className={`flex items-center md:gap-6 gap-4  md:px-5 px-3  hover:text-gray-100 text-gray-400 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline p-3 w-full text-center cursor-pointer 
-                                    ${selectedContent === "wet_stock" ? "text-white" : ""}`}
-                                    onClick={() => setSelectedContent("wet_stock")}
-                                >
-                                    <span className={` md:text-xl text-[12px] font-medium duration-300 ease-in-out ${isSidebarExpanded ? "opacity-100" : "opacity-0"}`}>
-                                        Wet stock deliveries 
-                                    </span>
-                                </a>
-                            </div> */}
 
                             <div className="border-gray-700 w-full font-medium mb-2">
                                 <a
@@ -183,7 +182,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <FuelPrices userLogIn={userLogIn} allFuelPrices={allFuelPrices}/>
+                                <FuelPrices userLogIn={userLogIn} allFuelPrices={allFuelPrices} handleFuelPricesSave={handleFuelPricesSave}/>
                             </div>
                         </div> 
                     </div>
@@ -192,7 +191,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar}  />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <ChargeAccounts userLogIn={userLogIn} allChargeAccount={allChargeAccount}/>
+                                <ChargeAccounts userLogIn={userLogIn} allChargeAccount={allChargeAccount} handleChargeAccountSave={handleChargeAccountSave}/>
                             </div>
                         </div>
                     </div>

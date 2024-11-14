@@ -30,7 +30,6 @@ async function handlePostRequest(db_conn, req, res) {
             req.body.subtotal,
         );
 
-        // Respond with a success message or the user ID for redirection
         res.status(200).json({ message: "Sales data saved successfully!", userId: req.body.user_id });
     } catch (error) {
         console.error(error);

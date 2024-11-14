@@ -17,6 +17,8 @@ async function handlePostRequest(db_conn, req, res) {
         await db_conn.addActualPOS(
             req.body.user_id,
             req.body.date,
+            req.body.time,
+            req.body.reference_id,
             req.body.actualPOS,
             req.body.overShortage,
         );
