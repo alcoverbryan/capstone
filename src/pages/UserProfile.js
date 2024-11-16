@@ -1,168 +1,181 @@
-import { useState } from 'react';
-import NavbarMain from '../../lib/components/navbars/NavbarMain';
+import { useState, useEffect } from "react";
+import { Chevron_right } from "../../lib/components/HeroIcons";
 
-export default function Profile() {
-    // Simulate the user data (you can replace this with actual data from props or context)
-    const userLogIn = {
-        name: 'John Doe',
-        position: 'Manager',
-        email: 'johndoe@example.com',
-        phone: '+1234567890',
-        username: "John",
-        branch: 'Downtown Station',
-        address: 'Lahug',
+const ProfilePage = () => {
+  const userLogIn = {
+    name: "John Doe",
+    position: "Manager",
+    email: "johndoe@example.com",
+    phone: "9937320878",
+    branch: "Downtown Station",
+    joinedDate: "2023-05-10",
+    address: "Lahug",
+    username: "John",
+  };
+
+  const [editable, setEditable] = useState(false);
+  const [editedData, setEditedData] = useState({ ...userLogIn });
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden"; // Disable global scrolling
+    return () => {
+      document.body.style.overflow = "auto"; // Re-enable global scrolling
     };
+  }, []);
 
-    const [editable, setEditable] = useState(false);
-    const [editedData, setEditedData] = useState({ ...userLogIn });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "phone") {
+      setEditedData({
+        ...editedData,
+        phone: `+63${value.replace(/^\+63/, "").replace(/\D/g, "")}`,
+      });
+    } else {
+      setEditedData({
+        ...editedData,
+        [name]: value,
+      });
+    }
+  };
 
-    const handleChange = (e) => {
-        setEditedData({
-            ...editedData,
-            [e.target.name]: e.target.value,
-        });
-    };
+  const handleEditToggle = () => setEditable((prev) => !prev);
 
-    const handleEditToggle = () => {
-        setEditable((prev) => !prev);
-        setEditedData({ ...userLogIn });  // Reset changes on cancel
-    };
+  const handleSave = () => {
+    const confirmed = window.confirm("Are you sure you want to save the changes?");
+    if (confirmed) {
+      console.log("Saved Data:", editedData);
+      setEditable(false);
+    }
+  };
 
-    const handleSave = () => {
-        // Display a confirmation alert
-        const confirmed = window.confirm('Are you sure you want to save the changes?');
-        if (confirmed) {
-            // Normally here, you would save the data (to an API or context)
-            console.log('Saved Data:', editedData);
-            setEditable(false);
-        }
-    };
+  const hasChanges = () => JSON.stringify(editedData) !== JSON.stringify(userLogIn);
 
-    const hasChanges = () => {
-        return JSON.stringify(editedData) !== JSON.stringify(userLogIn);
-    };
-
-    return (
-        <div className="block">
-            <NavbarMain userLogIn={userLogIn} allBranch={[]} handleBackToHome={() => {}} toggleSidebar={() => {}} />
-            <div className="max-w-full h-full mx-auto p-6 mt-6">
-                <div className="mt-6 p-6 bg-yellow-300 rounded-lg shadow-md">
-                    <h1 className="text-3xl font-semibold text-center">User Profile</h1>
-
-                    {/* Profile Image */}
-                    <div className="flex justify-center mt-4">
-                        <div className="w-60 h-60 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                            <img
-                                src="/path/to/profile-image.jpg" // Replace with your image path
-                                alt="User Profile"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Horizontal Line Below Profile Image */}
-                    <div className="flex justify-center mt-4">
-                        <hr className="border-t-2 border-gray-200 w-11/12" />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                        <div className="mb-4">
-                            <label className="block text-sm font-semibold">Name</label>
-                            <input
-                                type="text"
-                                name="name"
-                                value={editedData.name}
-                                onChange={handleChange}
-                                disabled={!editable}
-                                className="mt-2 p-2 border rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-semibold">Phone</label>
-                            <input
-                                type="text"
-                                name="phone"
-                                value={editedData.phone}
-                                onChange={handleChange}
-                                disabled={!editable}
-                                className="mt-2 p-2 border rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-semibold">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={editedData.email}
-                                onChange={handleChange}
-                                disabled={!editable}
-                                className="mt-2 p-2 border rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-semibold">Position</label>
-                            <input
-                                type="text"
-                                name="position"
-                                value={editedData.position}
-                                disabled
-                                className="mt-2 p-2 border rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-semibold">Username</label>
-                            <input
-                                type="text"
-                                name="username"
-                                value={editedData.username}
-                                onChange={handleChange}
-                                disabled={!editable}
-                                className="mt-2 p-2 border rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-semibold">Branch</label>
-                            <input
-                                type="text"
-                                name="branch"
-                                value={editedData.branch}
-                                disabled
-                                className="mt-2 p-2 border rounded w-full"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-semibold">Address</label>
-                            <input
-                                type="text"
-                                name="address"
-                                value={editedData.address}
-                                onChange={handleChange}
-                                disabled={!editable}
-                                className="mt-2 p-2 border rounded w-full"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="mt-6 flex justify-center gap-7">
-                        <button
-                            onClick={handleEditToggle}
-                            className={`px-4 py-2 rounded ${editable ? 'bg-gray-200 text-black' : 'bg-red-500 text-white'}`}
-                        >
-                            {editable ? 'Cancel Edit' : 'Edit Profile'}
-                        </button>
-
-                        {editable && (
-                            <button
-                                onClick={handleSave}
-                                className={`px-4 py-2 rounded ${hasChanges() ? 'bg-red-500 text-white' : 'bg-gray-400 text-gray-200 cursor-not-allowed'}`}
-                                disabled={!hasChanges()}
-                            >
-                                Save Changes
-                            </button>
-                        )}
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="h-screen w-screen flex justify-center items-center bg-white overflow-hidden">
+      {/* Scrollable container */}
+      <div className="w-full max-w-5xl h-full overflow-y-auto p-6">
+        <div className="mb-10 mt-6 bg-white border-b border-r shadow-md rounded-md p-4 text-l font-medium flex items-center space-x-2">
+          <span className="text-l font-medium text-[#566a7f]">Account Setting</span>
+          <Chevron_right className="h-4 w-4 text-gray-500" />
+          <span className="text-l font-medium">Account</span>
         </div>
-    );
-}
+        <div className="w-full bg-yellow-500 rounded-xl shadow-md p-6">
+          <div className="grid grid-cols-[2fr,4fr] gap-5">
+            {/* Left Column */}
+            <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow">
+              <div className="p-3 text-[1.125rem] text-[#566a7f] font-medium">Profile Details</div>
+              <div className="w-56 h-56 mb-4 rounded-full bg-gray-300 flex items-center justify-center">
+                <img src="/../image/avatar.png" alt="Profile" className="rounded-full w-[250px]" />
+              </div>
+              <h2 className="text-xl font-semibold">{userLogIn.name}</h2>
+              <p className="text-gray-500">{userLogIn.position}</p>
+            </div>
+
+            {/* Right Column */}
+            <div className="grid grid-cols-1 gap-4 bg-white p-4 rounded-lg shadow">
+              <div className="bg-white shadow-md border-b flex justify-center rounded-lg text-nowrap mb-5">
+                <span className="p-4 text-[1.125rem] text-[#566a7f] font-medium capitalize">
+                  Update Your Profile Here
+                </span>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={editable ? editedData.name : userLogIn.name}
+                  onChange={handleChange}
+                  disabled={!editable}
+                  className="mt-2 p-2 border rounded w-full bg-gray-200"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={editable ? editedData.email : userLogIn.email}
+                  onChange={handleChange}
+                  disabled={!editable}
+                  className="mt-2 p-2 border rounded w-full bg-gray-200"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold">Phone</label>
+                <div className="flex items-center">
+                <span className="bg-gray-200 mr-0.5 text-[#4F5153] px-2 py-2 rounded-l-lg">+63</span>
+                <input
+                    type="text"
+                    name="phone"
+                    value={editable ? editedData.phone.replace(/^\+63/, "") : userLogIn.phone.replace(/^\+63/, "")}
+                    onChange={handleChange}
+                    disabled={!editable}
+                    className="w-full p-2 border-b bg-gray-200 border rounded-r-lg outline-none"
+                    />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold">Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={editable ? editedData.address : userLogIn.address}
+                  onChange={handleChange}
+                  disabled={!editable}
+                  className="mt-2 p-2 border rounded w-full bg-gray-200"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold">Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={editable ? editedData.username : userLogIn.username}
+                  onChange={handleChange}
+                  disabled={!editable}
+                  className="mt-2 p-2 border rounded w-full bg-gray-200"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold">Branch</label>
+                <input
+                  type="text"
+                  name="branch"
+                  value={userLogIn.branch}
+                  disabled
+                  className="mt-2 p-2 border rounded w-full bg-gray-200"
+                />
+              </div>
+
+              <div className="mt-6 flex justify-between">
+                <button
+                  onClick={handleEditToggle}
+                  className={`px-4 py-2 rounded ${
+                    editable ? "bg-gray-200 text-black" : "bg-red-500 text-white"
+                  }`}
+                >
+                  {editable ? "Cancel Edit" : "Edit Profile"}
+                </button>
+                {editable && (
+                  <button
+                    onClick={handleSave}
+                    className={`px-4 py-2 rounded ${
+                      hasChanges()
+                        ? "bg-red-500 text-white"
+                        : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                    }`}
+                    disabled={!hasChanges()}
+                  >
+                    Save Changes
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProfilePage;

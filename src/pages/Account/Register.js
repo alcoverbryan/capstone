@@ -15,6 +15,8 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [countdown, setCountdown] = useState(50); 
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+
     
 
     useEffect(() => {
@@ -73,6 +75,13 @@ export default function Register() {
         // Ensure the phone number is exactly 11 digits after formatting
         if (formattedPhoneNum.length !== 11) {
             alert("Phone number must be 11 digits.");
+            setIsLoading(false);
+            return;
+        }
+
+        // Password validation
+        if (!passwordPattern.test(password)) {
+            alert("Password must be at least 8 characters long and contain at least one letter, one number, and one special character.");
             setIsLoading(false);
             return;
         }
@@ -295,6 +304,7 @@ export default function Register() {
                                                             id="password"
                                                             name="password"
                                                             required
+                                                            placeholder="at least 8 characters"
                                                             className="w-full p-2 border-b bg-[#D9D9D9] border rounded-lg outline-none shadow-md"
                                                         />
                                                         <div
