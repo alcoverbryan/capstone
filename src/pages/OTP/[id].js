@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import ForgotPassword from "../../../lib/components/ForgotPassword";
 import { BubbleLoading, Chevron_left } from "../../../lib/components/HeroIcons";
 import { DB_CONF } from "../../../lib/db/DBConf";
 import DBManager from "../../../lib/db/DBManager";
+import ForgotPassword from "../../../lib/components/ForgotPassword";
 
 export default function Enter_OTP({ UserLogIn }) {
     const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -126,7 +126,7 @@ export default function Enter_OTP({ UserLogIn }) {
                         </div>
                     </form>
                     <div className="flex flex-col justify-center items-center">
-                        <a href="/" className="text-accent1 tracking-wide text-[13px] relative">
+                        <a href="/Account/Login" className="text-accent1 tracking-wide text-[13px] relative">
                             <Chevron_left className="w-4 h-4 absolute left-[-20px] top-1/2 transform -translate-y-1/2" />
                             Back to LogIn
                         </a>
