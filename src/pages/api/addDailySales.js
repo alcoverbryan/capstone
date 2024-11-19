@@ -30,7 +30,7 @@ async function handlePostRequest(db_conn, req, res) {
             req.body.subtotal,
         );
 
-        res.status(200).json({ message: "Sales data saved successfully!", userId: req.body.user_id });
+        res.status(200).json({ message: "Are you sure you want to save this data?", userId: req.body.user_id });
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
