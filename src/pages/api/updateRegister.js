@@ -7,6 +7,7 @@ export default async function handler(req, res, query) {
 
     if (req.method === "POST") {
         handleupdateRequest(db_conn, req, res, query);
+        console.log(req.body)
     } else {
         res.status(200).json({ name: "Test" });
     }

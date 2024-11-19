@@ -1,0 +1,44 @@
+import { DB_CONF } from "../../../lib/db/DBConf";
+import DBManager from "../../../lib/db/DBManager";
+
+export default async function handler(req, res) {
+    const db_conn = new DBManager(DB_CONF.PATH);
+    await db_conn.init();
+
+    if (req.method === "POST") {
+        await handleUpdateRequest(db_conn, req, res);
+        console.log(req.body)
+    } else {
+        res.status(200).json({ name: "Test" });
+    }
+}
+
+async function handleUpdateRequest(db_conn, req, res) {
+    try {
+        const user_login_id = req.body.user_login_id;
+        const newPassword = req.body.password;
+
+        if (!newPassword) {
+            res.status(400).json({ message: "Please provide the new password." });
+            return;
+        }
+
+        const hashedPassword = newPassword;
+        const userId = req.body.id;
+
+        const [updatedUser] = await db_conn.users.update(
+            { password: hashedPassword },
+            { where: { id: userId } }
+        );
+
+        await db_conn.deletePendingPasswords(userId);
+
+        if (updatedUser > 0) {
+            res.redirect(`/Users/${user_login_id}`);
+        } else {
+            res.status(404).json({ message: "User not found." });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error." });
+    }
+}
