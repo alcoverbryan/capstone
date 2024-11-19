@@ -33,7 +33,7 @@ async function handleUpdateRequest(db_conn, req, res) {
         
         if (pendingChangeId > 0) {
             notifyAdmin(userId);
-            res.redirect("/");
+            res.redirect("/Account/Login");
         } else {
             res.status(500).json({ message: "Failed to create pending password change." });
         }

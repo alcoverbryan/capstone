@@ -16,7 +16,8 @@ export default async function handler(req, res, query) {
 async function handleupdateRequest(db_conn, req, res, query) {
     try {
         const user_id = req.body.user_id;
-        const Register_id = req.body.id;
+        const Register_id = req.body.user_id;
+        console.log(`Hello ${Register_id}`)
         const registerDetailsData = {
             full_name: req.body.full_name,
             permanent_address: req.body.permanent_address,
@@ -27,10 +28,10 @@ async function handleupdateRequest(db_conn, req, res, query) {
             branch_id: req.body.branch_id,
         };
 
-        await db_conn.updateRegisterDetails(Register_id, registerDetailsData);
+        await db_conn.updateRegisterDetails(user_id, registerDetailsData);
 
 
-        res.redirect(`/Users/${user_id}`);
+        res.status(200).json({ message: "User details updated successfully", user_id });
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
