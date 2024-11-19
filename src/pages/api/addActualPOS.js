@@ -25,7 +25,7 @@ async function handlePostRequest(db_conn, req, res) {
 
         // Send a JSON response back
         res.status(200).json({
-            message: "Actual POS data saved successfully",
+            message: "Are you sure you want to save this data?                          ",
             userId: req.body.user_id,
         });
     } catch (error) {
