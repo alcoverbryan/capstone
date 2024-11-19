@@ -127,7 +127,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                                             ${selectedContent === "daily_sales_vol" ? "text-white" : ""}`}      
                                                 onClick={() => setSelectedContent("daily_sales_vol")}
                                         >
-                                            Daily Sales Vol
+                                            Daily Sales Volume
                                         </div>
                                         <div
                                             className={`text-[18px] py-1 cursor-pointer hover:text-gray-100 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline w-full 
@@ -250,7 +250,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar}/>
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <DailyDeposit/>
+                                <DailyDeposit userLogIn={userLogIn}/>
                                 <div></div>
                             </div>
                         </div>
