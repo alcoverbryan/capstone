@@ -18,7 +18,7 @@ async function handleDeleteRequest(db_conn, req, res) {
 
     try {
         await db_conn.deletePendingPasswords(pending_id);
-        res.redirect(`/dashboard/${user_login_id}`);
+        res.redirect(`/Users/${user_login_id}`);
     } catch (error) {
         console.error("Error deleting project:", error.message);
         res.status(500).json({ error: "Failed to delete project." });

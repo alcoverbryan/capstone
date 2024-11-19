@@ -30,7 +30,7 @@ async function handleUpdateRequest(db_conn, req, res) {
         const userId = req.body.register_id;
 
         const pendingChangeId = await db_conn.pendingPasswordChanges(userId, hashedPassword);
-
+        
         if (pendingChangeId > 0) {
             notifyAdmin(userId);
             res.redirect("/");

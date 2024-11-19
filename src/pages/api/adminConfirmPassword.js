@@ -7,6 +7,7 @@ export default async function handler(req, res) {
 
     if (req.method === "POST") {
         await handleUpdateRequest(db_conn, req, res);
+        console.log(req.body)
     } else {
         res.status(200).json({ name: "Test" });
     }
@@ -25,7 +26,7 @@ async function handleUpdateRequest(db_conn, req, res) {
         const hashedPassword = newPassword;
         const userId = req.body.id;
 
-        const [updatedUser] = await db_conn.registerMembers.update(
+        const [updatedUser] = await db_conn.users.update(
             { password: hashedPassword },
             { where: { id: userId } }
         );
@@ -33,7 +34,7 @@ async function handleUpdateRequest(db_conn, req, res) {
         await db_conn.deletePendingPasswords(userId);
 
         if (updatedUser > 0) {
-            res.redirect(`/dashboard/${user_login_id}`);
+            res.redirect(`/Users/${user_login_id}`);
         } else {
             res.status(404).json({ message: "User not found." });
         }
