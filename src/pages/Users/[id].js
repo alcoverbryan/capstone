@@ -16,7 +16,8 @@ import { Chevron_right } from "../../../lib/components/HeroIcons";
 import { useRouter } from "next/router";
 import LossOrGain from "../../../lib/components/WetStockContent/PriceG&L";
 
-export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, allChargeAccount, allDailySales, allActualPOS, displayAllPending, getDailyDeposit}) {
+export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, allChargeAccount, allDailySales, allActualPOS, displayAllPending}) {
+    console.log(allRegister)
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
     const router = useRouter();
     const { view } = router.query; 
