@@ -94,7 +94,7 @@ export default function Profile() {
                             <div className="w-56 h-56 mb-4 rounded-full bg-gray-300 flex items-center justify-center">
                                 <img src="/../image/avatar.png" alt="Profile" className="rounded-full w-[250px]" />
                             </div>
-                            <h2 className="text-xl font-semibold">{userLogIn.name}</h2>
+                            <h2 className="text-xl font-semibold">{userLogIn.full_name}</h2>
                             <p className="text-gray-500">{userLogIn.position}</p>
                         </div>
 
