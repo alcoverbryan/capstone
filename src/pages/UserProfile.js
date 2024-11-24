@@ -23,6 +23,7 @@ export default function Profile() {
         if (router.query.back) {
             setBackPath(router.query.back); // Set the back path from the query
         }
+        
     }, [router.query]);
 
     if (!userLogIn) {
@@ -80,14 +81,14 @@ export default function Profile() {
     };
 
     return (
-        <div className="h-screen w-screen flex justify-center items-center bg-white overflow-hidden">
+        <div className="h-screen w-screen flex justify-center items-center bg-gray-100 overflow-hidden">
             <div className="w-full h-full overflow-y-auto p-6">
                 <div className="mb-5 mt-1 bg-white border-b border-r shadow-md rounded-md p-4 text-l font-medium flex items-center space-x-2">
                     <span className="text-l font-medium text-[#566a7f]">Account Setting</span>
                     <Chevron_right className="h-4 w-4 text-gray-500" />
                     <span className="text-l font-medium">Account</span>
                 </div>
-                <div className="w-full bg-yellow-500 rounded-xl shadow-md p-6">
+                <div className="w-full rounded-xl shadow-md p-6">
                     <div className="grid grid-cols-[1fr,4fr] gap-5">
                         <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow">
                             <div className="p-3 text-[1.125rem] text-[#566a7f] font-medium">Profile Details</div>
@@ -131,14 +132,18 @@ export default function Profile() {
                                         </div>
                                         <div>
                                             <label className="block text-sm font-semibold">Gender</label>
-                                            <input
-                                                type="text"
+                                            <select
                                                 name="gender"
-                                                value={editedData.gender || ""}
-                                                disabled
-                                                className="mt-2 p-2 border rounded w-full bg-gray-200"
-                                            />
+                                                value={editedData.gender || ''}
+                                                onChange={handleChange}
+                                                className="mt-2 p-2 border rounded w-full bg-white"
+                                            >
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
                                         </div>
+
+
                                         <div>
                                         <label className="block text-sm font-semibold">Email</label>
                                         <input

@@ -19,7 +19,9 @@ async function handleupdateRequest(db_conn, req, res, query) {
         const Register_id = req.body.user_id;
         console.log(`Hello ${Register_id}`)
         const registerDetailsData = {
-            full_name: req.body.full_name,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            gender: req.body.gender,
             permanent_address: req.body.permanent_address,
             email: req.body.email,
             username: req.body.username,
