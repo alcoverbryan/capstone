@@ -251,7 +251,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} displayAllPending={displayAllPending}/>
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <DailyDeposit userLogIn={userLogIn}/>
+                                <DailyDeposit userLogIn={userLogIn} getDailyDeposit={getDailyDeposit}/>
                                 <div></div>
                             </div>
                         </div>
@@ -295,6 +295,7 @@ export async function getServerSideProps({req, res, query}) {
     let allRegister = await db_conn.getRegister();
     let allActualPOS = await db_conn.getActualPOS();
     let displayAllPending = await db_conn.getPendingPasswords();
+    let getDailyDeposit = await db_conn.getDailyDeposit();
 
     return {
         props: {
@@ -306,6 +307,7 @@ export async function getServerSideProps({req, res, query}) {
             allActualPOS: allActualPOS,
             allRegister: allRegister,
             displayAllPending: displayAllPending,
+            getDailyDeposit: getDailyDeposit,
         },
     }
 }

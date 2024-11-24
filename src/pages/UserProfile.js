@@ -95,6 +95,7 @@ export default function Profile() {
                                 <img src="/../image/avatar.png" alt="Profile" className="rounded-full w-[250px]" />
                             </div>
                             <h2 className="text-xl font-semibold">{userLogIn.first_name} {userLogIn.last_name}</h2>
+
                             <p className="text-gray-500">{userLogIn.position}</p>
                         </div>
 

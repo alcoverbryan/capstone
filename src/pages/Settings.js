@@ -85,6 +85,7 @@ export default function Settings() {
                 return null;
         }
     };
+    
 
     return (
         <div>
@@ -153,14 +154,19 @@ export default function Settings() {
                 )}
             </div>
 
-            {/* Render Active View */}
-            {renderView()}
-            <button
-                onClick={navigateBack}
-                className="px-4 py-2 rounded bg-yellow-500 text-white"
-            >
-                Back
-            </button>
+            <div className="border-0">
+                {renderView()}
+                <div className="md:px-52 border-0 flex justify-end">
+                    <button
+                        onClick={navigateBack}
+                        className="px-4 py-2 rounded bg-yellow-500 text-white"
+                    >
+                        Back
+                    </button>
+                </div>
+            </div>
+            
+           
         </div>
     );
 }
