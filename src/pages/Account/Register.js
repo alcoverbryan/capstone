@@ -7,7 +7,9 @@ export default function Register() {
     const [otpDigits, setOtpDigits] = useState(["", "", "", "", "", ""]); 
     const [isOtpVerified, setIsOtpVerified] = useState(false); 
     const [isLoading, setIsLoading] = useState(false);
-    const [full_name, setFullName] = useState("");
+    const [first_name, setFirstName] = useState("");
+    const [last_name, setLastName] = useState("");
+    const [gender, setGender] = useState("");
     const [permanent_address, setPermanentAddress] = useState("");
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -66,7 +68,7 @@ export default function Register() {
         // Format the phone number by replacing +63 with 0
         const formattedPhoneNum = `0${phone_num}`; // phone_num will hold the 10 digits the user inputs.
     
-        if (!full_name || !email || !username || !permanent_address || !formattedPhoneNum || !password) {
+        if (!first_name || !last_name || !gender || !email || !username || !permanent_address || !formattedPhoneNum || !password) {
             alert("Please fill in all required fields.");
             setIsLoading(false);
             return;
@@ -92,7 +94,9 @@ export default function Register() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                full_name,
+                first_name,
+                last_name,
+                gender,
                 permanent_address,
                 email,
                 username,
@@ -191,19 +195,60 @@ export default function Register() {
                                                         htmlFor="full_name"
                                                         className="block text-[#4F5153] font-semibold"
                                                     >
-                                                        Full Name:
+                                                        First Name:
                                                     </label>
                                                     <input
                                                         onChange={(e) =>
-                                                            setFullName(e.target.value)
+                                                            setFirstName(e.target.value)
                                                         }
                                                         type="text"
-                                                        id="full_name"
-                                                        name="full_name"
+                                                        id="first_name"
+                                                        name="first_name"
                                                         required
                                                         className="w-full p-2 border-b bg-[#D9D9D9] border rounded-lg outline-none shadow-md"
                                                     />
                                                 </div>
+                                                <div className="mb-2">
+                                                    <label
+                                                        htmlFor="last_name"
+                                                        className="block text-[#4F5153] font-semibold"
+                                                    >
+                                                        Last Name:
+                                                    </label>
+                                                    <input
+                                                        onChange={(e) =>
+                                                            setLastName(e.target.value)
+                                                        }
+                                                        type="text"
+                                                        id="last_name"
+                                                        name="last_name"
+                                                        required
+                                                        className="w-full p-2 border-b bg-[#D9D9D9] border rounded-lg outline-none shadow-md"
+                                                    />
+                                                </div>
+                                                <div className="mb-2">
+                                                    <label
+                                                        htmlFor="gender"
+                                                        className="block text-[#4F5153] font-semibold"
+                                                    >
+                                                        Gender:
+                                                    </label>
+                                                    <select
+                                                        id="gender"
+                                                        name="gender"
+                                                        required
+                                                        className={`w-full p-2 border-b bg-[#D9D9D9] border rounded-lg outline-none shadow-md ${
+                                                            gender === "" ? "text-gray-500" : "text-black"
+                                                        }`}
+                                                        value={gender}
+                                                        onChange={(e) => setGender(e.target.value)} // Update state with selected value
+                                                    >
+                                                        <option value="" disabled>Select Gender</option> {/* Placeholder option */}
+                                                        <option value="Male" className="text-black">Male</option>
+                                                        <option value="Female" className="text-black">Female</option>
+                                                    </select>
+                                                </div>
+
                                                 <div className="mb-2">
                                                     <label
                                                         htmlFor="email"
@@ -222,26 +267,26 @@ export default function Register() {
                                                         className="w-full p-2 border-b bg-[#D9D9D9] border rounded-lg outline-none shadow-md"
                                                     />
                                                 </div>
-                                                <div className="mb-2">
-                                                    <label
-                                                        htmlFor="username"
-                                                        className="block text-[#4F5153] font-semibold"
-                                                    >
-                                                        User Name:
-                                                    </label>
-                                                    <input
-                                                        onChange={(e) =>
-                                                            setUsername(e.target.value)
-                                                        }
-                                                        type="text"
-                                                        id="username"
-                                                        name="username"
-                                                        required
-                                                        className="w-full p-2 border-b bg-[#D9D9D9] border rounded-lg outline-none shadow-md"
-                                                    />
-                                                </div>
                                             </div>
                                             <div className="border-0 w-1/2">
+                                                <div className="mb-2">
+                                                        <label
+                                                            htmlFor="username"
+                                                            className="block text-[#4F5153] font-semibold"
+                                                        >
+                                                            User Name:
+                                                        </label>
+                                                        <input
+                                                            onChange={(e) =>
+                                                                setUsername(e.target.value)
+                                                            }
+                                                            type="text"
+                                                            id="username"
+                                                            name="username"
+                                                            required
+                                                            className="w-full p-2 border-b bg-[#D9D9D9] border rounded-lg outline-none shadow-md"
+                                                        />
+                                                </div>
                                                 <div className="mb-2">
                                                     <label
                                                         htmlFor="permanent_address"

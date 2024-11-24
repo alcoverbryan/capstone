@@ -32,10 +32,10 @@ export default async function handler(req, res) {
 // Handle user registration and OTP sending
 async function handleCreateUserRequest(db_conn, req, res) {
     try {
-        const { email, password, full_name, permanent_address, username, phone_num, branch_id } = req.body;
+        const { email, password, first_name, last_name, gender, permanent_address, username, phone_num, branch_id } = req.body;
 
         // Store the user data temporarily
-        tempUserDataStorage[email] = { full_name, permanent_address, email, username, phone_num, branch_id, password };
+        tempUserDataStorage[email] = { first_name, last_name, gender, permanent_address, email, username, phone_num, branch_id, password };
 
         // Generate OTP
         const otp = generateOTP();
@@ -81,7 +81,7 @@ async function handleOTPVerification(db_conn, req, res) {
             if (storedOtpData.otp === trimmedOtp) {
                 console.log("OTP matched. Proceeding with registration...");
 
-                const { full_name, permanent_address, username, phone_num, branch_id, password } = tempUserDataStorage[email];
+                const { first_name, last_name, gender, permanent_address, username, phone_num, branch_id, password } = tempUserDataStorage[email];
 
                 const hashedPassword = hashPassword(password);
 
@@ -94,7 +94,9 @@ async function handleOTPVerification(db_conn, req, res) {
                 }
 
                 await db_conn.register(
-                    full_name,
+                    first_name,
+                    last_name,
+                    gender,
                     permanent_address,
                     email,
                     hashedPassword,

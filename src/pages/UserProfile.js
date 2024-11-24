@@ -81,20 +81,20 @@ export default function Profile() {
 
     return (
         <div className="h-screen w-screen flex justify-center items-center bg-white overflow-hidden">
-            <div className="w-full max-w-5xl h-full overflow-y-auto p-6">
-                <div className="mb-10 mt-6 bg-white border-b border-r shadow-md rounded-md p-4 text-l font-medium flex items-center space-x-2">
+            <div className="w-full h-full overflow-y-auto p-6">
+                <div className="mb-5 mt-1 bg-white border-b border-r shadow-md rounded-md p-4 text-l font-medium flex items-center space-x-2">
                     <span className="text-l font-medium text-[#566a7f]">Account Setting</span>
                     <Chevron_right className="h-4 w-4 text-gray-500" />
                     <span className="text-l font-medium">Account</span>
                 </div>
                 <div className="w-full bg-yellow-500 rounded-xl shadow-md p-6">
-                    <div className="grid grid-cols-[2fr,4fr] gap-5">
+                    <div className="grid grid-cols-[1fr,4fr] gap-5">
                         <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow">
                             <div className="p-3 text-[1.125rem] text-[#566a7f] font-medium">Profile Details</div>
                             <div className="w-56 h-56 mb-4 rounded-full bg-gray-300 flex items-center justify-center">
                                 <img src="/../image/avatar.png" alt="Profile" className="rounded-full w-[250px]" />
                             </div>
-                            <h2 className="text-xl font-semibold">{userLogIn.name}</h2>
+                            <h2 className="text-xl font-semibold">{userLogIn.first_name} {userLogIn.last_name}</h2>
                             <p className="text-gray-500">{userLogIn.position}</p>
                         </div>
 
@@ -105,79 +105,106 @@ export default function Profile() {
                                 </span>
                             </div>
                             <form onSubmit={handleSubmit}>
-                                <input type="hidden" id="user_id" name="user_id" value={userLogIn.id} />
-                                <div>
-                                    <label className="block text-sm font-semibold">Name</label>
-                                    <input
-                                        type="text"
-                                        name="full_name"
-                                        value={editedData.full_name || ""}
-                                        onChange={handleChange}
-                                        className="mt-2 p-2 border rounded w-full bg-gray-200"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-semibold">Address</label>
-                                    <input
-                                        type="text"
-                                        name="permanent_address"
-                                        value={editedData.permanent_address || ""}
-                                        onChange={handleChange}
-                                        className="mt-2 p-2 border rounded w-full bg-gray-200"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-semibold">Email</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={editedData.email || ""}
-                                        onChange={handleChange}
-                                        className="mt-2 p-2 border rounded w-full bg-gray-200"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-semibold">Username</label>
-                                    <input
-                                        type="text"
-                                        name="username"
-                                        value={editedData.username || ""}
-                                        onChange={handleChange}
-                                        className="mt-2 p-2 border rounded w-full bg-gray-200"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-semibold">Phone</label>
-                                    <div className="flex items-center">
-                                        <span className="bg-gray-200 mr-0.5 text-[#4F5153] px-2 py-2 rounded-l-lg">+63</span>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <input type="hidden" id="user_id" name="user_id" value={userLogIn.id} />
+                                        <div>
+                                            <label className="block text-sm font-semibold">First Name</label>
+                                            <input
+                                                type="text"
+                                                name="first_name"
+                                                value={editedData.first_name || ""}
+                                                onChange={handleChange}
+                                                className="mt-2 p-2 border rounded w-full bg-gray-200"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-semibold">Last Name</label>
+                                            <input
+                                                type="text"
+                                                name="last_name"
+                                                value={editedData.last_name || ""}
+                                                onChange={handleChange}
+                                                className="mt-2 p-2 border rounded w-full bg-gray-200"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-semibold">Gender</label>
+                                            <input
+                                                type="text"
+                                                name="gender"
+                                                value={editedData.gender || ""}
+                                                disabled
+                                                className="mt-2 p-2 border rounded w-full bg-gray-200"
+                                            />
+                                        </div>
+                                        <div>
+                                        <label className="block text-sm font-semibold">Email</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            value={editedData.email || ""}
+                                            onChange={handleChange}
+                                            className="mt-2 p-2 border rounded w-full bg-gray-200"
+                                        />
+                                    </div>
+                                    </div>
+
+                                    <div>
+                                    <div>
+                                        <label className="block text-sm font-semibold">Phone</label>
+                                        <div className="flex items-center">
+                                            <span className="bg-gray-200 mr-0.5 text-[#4F5153] px-2 py-2 rounded-l-lg">+63</span>
+                                            <input
+                                                type="text"
+                                                name="phone_num"
+                                                value={(editedData.phone_num || "").replace(/^\+63/, "")}
+                                                onChange={handleChange}
+                                                className="w-full p-2 border-b bg-gray-200 border rounded-r-lg outline-none"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-semibold">Address</label>
+                                            <input
+                                                type="text"
+                                                name="permanent_address"
+                                                value={editedData.permanent_address || ""}
+                                                onChange={handleChange}
+                                                className="mt-2 p-2 border rounded w-full bg-gray-200"
+                                            />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-semibold">Username</label>
                                         <input
                                             type="text"
-                                            name="phone_num"
-                                            value={(editedData.phone_num || "").replace(/^\+63/, "")}
+                                            name="username"
+                                            value={editedData.username || ""}
                                             onChange={handleChange}
-                                            className="w-full p-2 border-b bg-gray-200 border rounded-r-lg outline-none"
+                                            className="mt-2 p-2 border rounded w-full bg-gray-200"
                                         />
                                     </div>
                                 </div>
 
-                                {/* Hidden Fields */}
-                                <div>
-                                    <input
-                                        type="hidden"
-                                        name="position"
-                                        value={editedData.position || ""}
-                                        onChange={handleChange}
-                                        className="mt-2 p-2 border rounded w-full bg-gray-200"
-                                    />
-                                </div>
-                                <div>
-                                    <input
-                                        type="hidden"
-                                        name="branch"
-                                        value={userLogIn.branch}
-                                        disabled
-                                        className="mt-2 p-2 border rounded w-full bg-gray-200"
-                                    />
+                                    {/* Hidden Fields */}
+                                    <div>
+                                        <input
+                                            type="hidden"
+                                            name="position"
+                                            value={editedData.position || ""}
+                                            onChange={handleChange}
+                                            className="mt-2 p-2 border rounded w-full bg-gray-200"
+                                        />
+                                    </div>
+                                    <div>
+                                        <input
+                                            type="hidden"
+                                            name="branch"
+                                            value={userLogIn.branch}
+                                            disabled
+                                            className="mt-2 p-2 border rounded w-full bg-gray-200"
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="mt-6 flex justify-between">
