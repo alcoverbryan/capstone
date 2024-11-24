@@ -3,11 +3,14 @@ import { useRouter } from "next/router";
 import { Chevron_right, MagnifyingGlass } from "../../lib/components/HeroIcons";
 import MaintenanceShutdown from "../../lib/components/MaintenanceShutdown";
 import PasswordReset from "../../lib/components/PasswordReset";
+import UserConfirmation from "../../lib/components/UserConfirmation";
 
 export default function Settings() {
     const [pendingData, setPendingData] = useState(null);
     const [displayPendingUserPassword, setDisplayPendingUserPassword] = useState([]);
-    const [userLogInData, setUserLogInData] = useState(null); // State for user login data
+    const [displayPendingUser, setDisplayPendingUser] = useState([]);
+    const [userLogInData, setUserLogInData] = useState(null);
+    const [pendingUsers, setPendingUsers] = useState(null); 
     const router = useRouter();
     const [activeButton, setActiveButton] = useState("maintenance");
     const [viewMode, setViewMode] = useState("maintenance");
@@ -41,11 +44,25 @@ export default function Settings() {
                 }
             }
 
+            if (router.query.pendingUsers) {
+                try {
+                    const parsedPendingUsers = JSON.parse(router.query.pendingUsers);
+                    setPendingUsers(parsedPendingUsers);
+                    if (Array.isArray(parsedPendingUsers)) {
+                        setDisplayPendingUser(parsedPendingUsers);
+                    }
+                } catch (error) {
+                    console.error("Error parsing userLogIn data:", error);
+                    setPendingUsers(null);
+                }
+            }
+
             if (router.query.back) {
-                setBackPath(router.query.back); // Set the back path from the query
+                setBackPath(router.query.back);
             }
         }
     }, [router.isReady, router.query]);
+
 
     const navigateBack = () => {
         if (backPath) {
@@ -79,6 +96,16 @@ export default function Settings() {
                 return (
                     <div className="md:px-10">
                         <MaintenanceShutdown />
+                    </div>
+                );
+            case "confirm_user":
+                return (
+                    <div className="md:px-10">
+                        <UserConfirmation
+                            pendingUserData={pendingUsers}
+                            searchInput={searchInput}
+                            userLogInData={userLogInData} // Pass userLogInData to PasswordReset component
+                        />
                     </div>
                 );
             default:
@@ -133,6 +160,29 @@ export default function Settings() {
                         {displayPendingUserPassword.length > 0 && (
                             <span className="absolute top-[-10px] right-[-10px] bg-red-500 text-white rounded-full px-3 py-1 text-sm">
                                 {displayPendingUserPassword.length}
+                            </span>
+                        )}
+                    </div>
+
+                    <div className="relative flex justify-center items-center">
+                        {/* Password Reset Button */}
+                        <button
+                            onClick={() => handleButtonClick("confirm_user")}
+                            className={`p-2 px-6 md:w-full w-full rounded-full text-sm font-semibold border ${
+                                activeButton === "confirm_user" ? "bg-accent1 text-light" : ""
+                            }`}
+                        >
+                            <div className="flex items-center justify-center gap-2">
+                                <span className="md:text-[14px] text-nowrap text-[12px]">
+                                    User Confirmation
+                                </span>
+                            </div>
+                        </button>
+
+                        {/* Badge for Pending Users */}
+                        {displayPendingUser.length > 0 && (
+                            <span className="absolute top-[-10px] right-[-10px] bg-red-500 text-white rounded-full px-3 py-1 text-sm">
+                                {displayPendingUser.length}
                             </span>
                         )}
                     </div>

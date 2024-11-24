@@ -88,7 +88,7 @@ export default function Register() {
             return;
         }
     
-        const response = await fetch("/api/register", {
+        const response = await fetch("/api/pendingUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -135,7 +135,7 @@ export default function Register() {
             return;
         }
 
-        const response = await fetch("/api/register", {
+        const response = await fetch("/api/pendingUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
