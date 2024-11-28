@@ -15,6 +15,10 @@ import AdminDashboard from "../../../lib/components/Dashboard/AdminDashboard";
 import { Chevron_right } from "../../../lib/components/HeroIcons";
 import { useRouter } from "next/router";
 import LossOrGain from "../../../lib/components/WetStockContent/PriceG&L";
+import { getIronSession } from "iron-session";
+import { SESSION_OPTION } from "../../../lib/session/session_option";
+import PaidAccounts from "../../../lib/components/PaidAccounts";
+import UnpaidAccounts from "../../../lib/components/UnpaidAccounts";
 
 export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, allChargeAccount, allDailySales, allActualPOS, displayAllPending, getDailyDeposit, getPendingUsers}) {
     console.log(getPendingUsers)
@@ -23,6 +27,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
     const { view } = router.query; 
     const [selectedContent, setSelectedContent] = useState("");
     const [isWetStockDropdownOpen, setIsWetStockDropdownOpen] = useState(false); 
+    const [isChargeAccountDropdownOpen, setIsChargeAccountDropdownOpen] = useState(false); 
     useEffect(() => {
         if (view) {
             setSelectedContent(view);
@@ -62,6 +67,11 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
         setIsWetStockDropdownOpen(!isWetStockDropdownOpen);
     };
 
+    const toggleChargeAccountDropdown = () => {
+        setIsChargeAccountDropdownOpen(!isChargeAccountDropdownOpen);
+    };
+    
+
     const [hideForUser, serHideForUser] = useState(userLogIn.position === "User" || userLogIn.position === "Office Staff" || userLogIn.position === "Cashier" );
 
     return (
@@ -95,18 +105,44 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                                 </a>
                             </div>
 
-                            <div className=" border-gray-700 w-full font-medium mb-2">
+                            <div className="border-gray-700 w-full font-medium mb-2">
                                 <a
                                     href="#"
-                                    className={`flex items-center  md:gap-6 gap-4  md:px-5 px-3 hover:text-gray-100 text-gray-400 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline p-3 w-full text-center cursor-pointer 
+                                    className={`flex items-center md:gap-6 gap-4 md:px-5 px-3 hover:text-gray-100 text-gray-400 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline p-3 w-full text-center cursor-pointer 
                                     ${selectedContent === "charge_acc" ? "text-white" : ""}`}
-                                    onClick={() => setSelectedContent("charge_acc")}
+                                    onClick={() => {
+                                        setSelectedContent("charge_acc"); // First action
+                                        toggleChargeAccountDropdown();  // Second action
+                                    }}
                                 >
-                                    <span className={` md:text-xl text-[12px] font-medium duration-300 ease-in-out ${isSidebarExpanded ? "opacity-100" : "opacity-0"}`}>
+                                    <span
+                                        className={`md:text-xl text-[12px] font-medium duration-300 ease-in-out ${
+                                            isSidebarExpanded ? "opacity-100" : "opacity-0"
+                                        }`}
+                                    >
                                         Charge accounts
                                     </span>
                                 </a>
+                                {isChargeAccountDropdownOpen && (
+                                    <div className="pl-10 text-gray-300">
+                                        <div
+                                            className={`text-[18px] py-1 cursor-pointer hover:text-gray-100 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline w-full 
+                                            ${selectedContent === "unpaid_account" ? "text-white" : ""}`}      
+                                            onClick={() => setSelectedContent("unpaid_account")}
+                                        >
+                                            Unpaid Charge Account
+                                        </div>
+                                        <div
+                                            className={`text-[18px] py-1 cursor-pointer hover:text-gray-100 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline w-full 
+                                            ${selectedContent === "paid_account" ? "text-white" : ""}`}      
+                                            onClick={() => setSelectedContent("paid_account")}
+                                        >
+                                            Paid Charge Account
+                                        </div>
+                                    </div>
+                                )}
                             </div>
+
 
                             <div className="border-gray-700 w-full font-medium mb-2">
                                 <a
@@ -114,13 +150,16 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                                     className={`flex items-center md:gap-6 gap-4  md:px-5 px-3  hover:text-gray-100 text-gray-400 transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline p-3 w-full text-center cursor-pointer 
                                         ${selectedContent === "wet_stock" ? "text-white" : ""
                                     }`}
-                                    onClick={toggleWetStockDropdown} // Toggle dropdown on click
+                                    onClick={() => {
+                                        setSelectedContent("wet_stock"); // First action
+                                        toggleWetStockDropdown();  // Second action
+                                    }}
                                 >
                                     <span className={`md:text-xl text-[12px] font-medium duration-300 ease-in-out ${isSidebarExpanded ? "opacity-100" : "opacity-0"}`}>
                                         WetStock 
                                     </span>
                                 </a>
-                                {/* Wet Stock Dropdown */}
+
                                 {isWetStockDropdownOpen && (
                                     <div className="pl-10 text-gray-300">
                                         <div
@@ -273,8 +312,25 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                             </div>
                         </div>
                     </div>
-                ) : 
-                 (
+                ) : selectedContent === "paid_account" ? (
+                    <div className="flex flex-col w-full h-screen overflow-hidden">
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} displayAllPending={displayAllPending} getPendingUsers={getPendingUsers} hideForUser={hideForUser} />
+                        <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
+                            <div className="text-center">
+                                <PaidAccounts userLogIn={userLogIn} allChargeAccount={allChargeAccount} handleChargeAccountSave={handleChargeAccountSave}/>
+                            </div>
+                        </div>
+                    </div>
+                ) : selectedContent === "unpaid_account" ? (
+                    <div className="flex flex-col w-full h-screen overflow-hidden">
+                        <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} displayAllPending={displayAllPending} getPendingUsers={getPendingUsers} hideForUser={hideForUser} />
+                        <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
+                            <div className="text-center">
+                                <UnpaidAccounts userLogIn={userLogIn} allChargeAccount={allChargeAccount} handleChargeAccountSave={handleChargeAccountSave}/>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
                     <div className="flex flex-col w-full h-screen overflow-hidden">
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} toggleSidebar={toggleSidebar} displayAllPending={displayAllPending} getPendingUsers={getPendingUsers} hideForUser={hideForUser}/>
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
@@ -291,10 +347,19 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
 }
 
 export async function getServerSideProps({req, res, query}) {
+    let session = await getIronSession(req, res, SESSION_OPTION);
     let db_conn = new DBManager(DB_CONF.PATH);
     await db_conn.init();
 
     let userLogIn = await db_conn.getRegisterById(query.id);
+    if (session.username === undefined || session.username !== userLogIn.username) {
+        return {
+            redirect: {
+                destination: `/Users/${session.id}`,
+                permanent: false,
+            },
+        };
+    }
     let allBranch = await db_conn.getBranch();
     let allFuelPrices = await db_conn.getFuelPrices();
     let allChargeAccount = await db_conn.getChargeAccount();
