@@ -1,37 +1,58 @@
 import { DB_CONF } from "../../../lib/db/DBConf";
 import DBManager from "../../../lib/db/DBManager";
 
-export default async function handler(req, res, query) {
+export default async function handler(req, res) {
     const db_conn = new DBManager(DB_CONF.PATH);
     await db_conn.init();
 
     if (req.method === "POST") {
-        handlePostRequest(db_conn, req, res, query);
-        console.log(req.body)
+        await handlePostRequest(db_conn, req, res);
     } else {
         res.status(200).json({ name: "Test" });
     }
 }
 
-async function handlePostRequest(db_conn, req, res, query) {
+async function handlePostRequest(db_conn, req, res) {
     try {
-        await db_conn.addFuelPrices(
-            req.body.user_id,
-            req.body.fuel_type,
-            req.body.rsop,
-            req.body.app_benross,
-            req.body.petron_highway,
-            req.body.caltex,
-            req.body.total,
-            req.body.rephil,
-            req.body.shell_affinis,
-            req.body.date,
-        );
+        const { user_id, date, rows } = req.body;
 
+        // Validate the data
+        if (!Array.isArray(rows) || rows.length === 0) {
+            return res.status(400).json({ error: "No rows provided" });
+        }
 
-        res.redirect(`/Users/${req.body.user_id}`);
+        // Iterate over rows and save them to the database
+        for (const row of rows) {
+            const {
+                fuel_type,
+                rsop,
+                app_benross,
+                petron_highway,
+                caltex,
+                total,
+                rephil,
+                shell_affinis,
+            } = row;
+
+            await db_conn.addFuelPrices(
+                user_id,
+                fuel_type,
+                rsop,
+                app_benross,
+                petron_highway,
+                caltex,
+                total,
+                rephil,
+                shell_affinis,
+                date
+            );
+        }
+
+        // Respond with success message
+        res.status(200).json({ message: "Fuel prices saved successfully" });
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
     }
 }
+ 
