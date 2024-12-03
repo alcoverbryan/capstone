@@ -355,11 +355,12 @@ export async function getServerSideProps({req, res, query}) {
     if (session.username === undefined || session.username !== userLogIn.username) {
         return {
             redirect: {
-                destination: `/Users/${session.id}`,
+                destination: session.id ? `/Users/${session.id}` : "/", 
                 permanent: false,
             },
         };
     }
+    
     let allBranch = await db_conn.getBranch();
     let allFuelPrices = await db_conn.getFuelPrices();
     let allChargeAccount = await db_conn.getChargeAccount();

@@ -1,7 +1,17 @@
 import { DB_CONF } from "../../../lib/db/DBConf";
 import DBManager from "../../../lib/db/DBManager";
+import corsMiddleware from "../../../lib/cors/cors_middleware";
+import Cors from "cors";
+
+const cors = corsMiddleware(
+    Cors({
+        methods: ["POST"]
+    })
+);
 
 export default async function handler(req, res, query) {
+    await cors(req, res);
+    
     const db_conn = new DBManager(DB_CONF.PATH);
     await db_conn.init();
 
