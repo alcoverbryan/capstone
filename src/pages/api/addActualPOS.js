@@ -1,7 +1,17 @@
+import corsMiddleware from "../../../lib/cors/cors_middleware";
+import Cors from "cors";
 import { DB_CONF } from "../../../lib/db/DBConf";
 import DBManager from "../../../lib/db/DBManager";
 
+const cors = corsMiddleware(
+    Cors({
+        methods: ["POST"]
+    })
+);
+
 export default async function handler(req, res) {
+    await cors(req, res);
+    
     const db_conn = new DBManager(DB_CONF.PATH);
     await db_conn.init();
 
@@ -25,7 +35,7 @@ async function handlePostRequest(db_conn, req, res) {
 
         // Send a JSON response back
         res.status(200).json({
-            message: "Are you sure you want to save this data?                          ",
+            message: "Are you sure you want to save this data?",
             userId: req.body.user_id,
         });
     } catch (error) {

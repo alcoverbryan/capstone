@@ -3,8 +3,18 @@ import { DB_CONF } from "../../../lib/db/DBConf";
 import DBManager from "../../../lib/db/DBManager";
 import crypto from "crypto";
 import { SESSION_OPTION } from "../../../lib/session/session_option";
+import corsMiddleware from "../../../lib/cors/cors_middleware";
+import Cors from "cors";
+
+const cors = corsMiddleware(
+    Cors({
+        methods: ["POST"]
+    })
+);
 
 export default async function handler(req, res) {
+    await cors(req, res);
+    
     try {
         const db_conn = new DBManager(DB_CONF.PATH);
         await db_conn.init();
