@@ -16,14 +16,14 @@ export default async function handler(req, res) {
     await db_conn.init();
 
     if (req.method === "POST") {
-        handleupdateRequest(db_conn, req, res, query);
+        handleupdateRequest(db_conn, req, res,);
         console.log(req.body)
     } else {
         res.status(200).json({ name: "Test" });
     }
 }
 
-async function handleupdateRequest(db_conn, req, res, query) {
+async function handleupdateRequest(db_conn, req, res,) {
     try {
         const user_id = req.body.user_id;
         const Register_id = req.body.id;
