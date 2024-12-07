@@ -17,6 +17,7 @@ export default async function handler(req, res) {
 
     if (req.method === "POST") {
         await handlePostRequest(db_conn, req, res);
+        console.log(req.body)
     } else {
         res.status(200).json({ name: "Test" });
     }

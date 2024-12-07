@@ -5,38 +5,45 @@ import Cors from "cors";
 
 const cors = corsMiddleware(
     Cors({
-        methods: ["POST"]
+        methods: ["POST"],
     })
 );
 
 export default async function handler(req, res) {
     await cors(req, res);
-    
+
     const db_conn = new DBManager(DB_CONF.PATH);
     await db_conn.init();
 
     if (req.method === "POST") {
         await handlePostRequest(db_conn, req, res);
-        console.log(req.body)
     } else {
-        res.status(200).json({ name: "Test" });
+        res.status(405).json({ error: "Method not allowed" });
     }
 }
 
 async function handlePostRequest(db_conn, req, res) {
     try {
-        await db_conn.addDailyDeposit(
-            req.body.user_id,
-            req.body.dateDeposited,
-            req.body.shiftDate,
-            req.body.cashier,
-            req.body.type,
-            req.body.bankDepositedTo,
-            req.body.subtotal,
-        );
+        const deposits = req.body.deposits;
 
-        // res.redirect(`/Users/${req.body.user_id}`);
-        res.status(200).json({ message: "Are you sure you want to save this data?", userId: req.body.user_id });
+        if (!Array.isArray(deposits) || deposits.length === 0) {
+            return res.status(400).json({ error: "Invalid or empty deposits array" });
+        }
+
+        for (const deposit of deposits) {
+            await db_conn.addDailyDeposit(
+                deposit.user_id,
+                deposit.dateDeposited,
+                deposit.shiftDate,
+                deposit.source,
+                deposit.cashier,
+                deposit.type,
+                deposit.bankDepositedTo,
+                deposit.subtotal
+            );
+        }
+
+        res.status(200).json({ message: "Data saved successfully", count: deposits.length });
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");

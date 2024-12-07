@@ -16,14 +16,14 @@ export default async function handler(req, res) {
     await db_conn.init();
 
     if (req.method === "POST") {
-        handleupdateRequest(db_conn, req, res, query);
+        handleupdateRequest(db_conn, req, res);
        console.log(req.body)
     } else {
         res.status(200).json({ name: "Test" });
     }
 }
 
-async function handleupdateRequest(db_conn, req, res, query) {
+async function handleupdateRequest(db_conn, req, res) {
     try {
         const user_id = req.body.user_id;
         const fuelPrice_id = req.body.id;
@@ -42,7 +42,7 @@ async function handleupdateRequest(db_conn, req, res, query) {
         await db_conn.updateFuelPrices(fuelPrice_id, fuelPriccesData);
 
 
-        res.redirect(`/Users/${user_id}`);
+        res.status(200).json({ message: "Fuel prices update successfully" });
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");

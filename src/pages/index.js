@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import Navbar from "../../lib/components/Navbar";
 import Image from "next/image";
+import { getIronSession } from "iron-session";
+import { SESSION_OPTION } from "../../lib/session/session_option";
 
 export default function Home() {
     const [isShowScrollbar, setIsShowScrollbar] = useState(false);
 
-    // Effect to handle window resize and scrollbar visibility
+    // Handle window resize and set scrollbar visibility
     useEffect(() => {
         const handleResize = () => {
             setIsShowScrollbar(window.innerWidth <= 768); // Adjust threshold as needed
         };
 
-        handleResize(); // Initial call to set the initial state
+        handleResize(); // Set the initial state on mount
         window.addEventListener("resize", handleResize);
 
         return () => {
@@ -19,40 +21,45 @@ export default function Home() {
         };
     }, []);
 
-    // Effect to control body overflow based on isShowScrollbar state
+    // Control body overflow based on scrollbar visibility
     useEffect(() => {
         document.body.style.overflow = isShowScrollbar ? "visible" : "hidden";
     }, [isShowScrollbar]);
 
     return (
         <div>
+            {/* Navbar */}
             <Navbar button="Log in" />
+
+            {/* Hero Section */}
             <div
-                className={`relative bg-cover bg-center h-screen flex flex-col border-0 border-green-500 justify-center items-center overflow-auto`}
+                className="relative bg-cover bg-center h-screen flex flex-col justify-center items-center"
                 style={{
-                    backgroundImage: "url('/../image/1.jpg')",
+                    backgroundImage: "url('/../image/landingpage_background2.jpg')",
                 }}
             >
                 {/* Semi-transparent overlay */}
-                <div className="absolute border-0 border-yellow-500 inset-0 w-full h-full bg-white opacity-50"></div>
-                
-                {/* Main content section */}
-                <div className="flex flex-col md:flex-row items-center justify-center gap-20 border-0 border-red-500 w-full relative h-screen">
-                    <div id="left" className="text-center md:text-left p-1 border-0 w-1/2">
-                        <h2 className="text-3xl md:text-[72px] font-bold mb-6 mt-10 text-[#181818] leading-tight">
-                            Welcome to <br className="l:hidden" /> Bennros Shell, Your <br className="md:hidden" /> Trusted Gas <br className="md:hidden" /> Station!
-                        </h2>
+                <div className="absolute inset-0 w-full h-full bg-white opacity-50"></div>
 
+                {/* Content Container */}
+                <div className="relative w-full h-screen flex flex-col md:flex-row items-center justify-center gap-20">
+                    {/* Left Content */}
+                    <div id="left" className="text-center md:text-left w-full md:w-1/2 p-5">
+                        <h2 className="text-3xl md:text-[72px] font-bold mb-6 text-[#181818] leading-tight">
+                            Welcome to <br className="hidden md:block" />
+                            Bennros Shell, Your <br className="hidden md:block" />
+                            Trusted Gas Station!
+                        </h2>
                         <p className="text-lg md:text-[24px] mb-3 text-black">
-                            Fuel up, refresh, and get back on the road with our top-tier{" "}
+                            Fuel up, refresh, and get back on the road with our top-tier
                             <br /> services and amenities.
                         </p>
-                        <button
-                            className="bg-gray-800 hover:bg-gray-500 text-white text-sm md:text-base font-bold py-4 px-10 rounded-full mt-4"
-                        >
-                            <a href="/Account/Login ">Get started</a>
+                        <button className="bg-gray-800 hover:bg-gray-500 text-white text-sm md:text-base font-bold py-4 px-10 rounded-full mt-4">
+                            <a href="/Account/Login">Get started</a>
                         </button>
                     </div>
+
+                    {/* Right Content (Image) */}
                     <div id="right" className="hidden md:block">
                         <Image
                             src="/image/gas-station-model.png"
@@ -64,10 +71,32 @@ export default function Home() {
                         />
                     </div>
                 </div>
-
-                {/* Login modal */}
-                
             </div>
         </div>
     );
 }
+
+// Server-side logic
+export async function getServerSideProps({ req, res, query }) {
+    const session = await getIronSession(req, res, SESSION_OPTION);
+
+    // Redirect logged-in users to their account page
+    if (session.username !== undefined) {
+        const queryString = new URLSearchParams(query).toString(); // Preserve query params
+        const destination = session.id
+            ? `/Users/${session.id}${queryString ? `?${queryString}` : ""}`
+            : "/";
+
+        return {
+            redirect: {
+                destination,
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {}, // No props needed for this page
+    };
+}
+
