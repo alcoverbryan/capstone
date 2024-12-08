@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 import Navbar from "../../lib/components/Navbar";
+import { getIronSession } from "iron-session";
+import { SESSION_OPTION } from "../../lib/session/session_option";
 
 export default function Home() {
     return (
         <div>
+        {/* Navbar */}
             <Navbar button="Log in" />
 
             <div className="relative h-screen flex flex-col justify-center items-center overflow-hidden bg-gradient-to-br from-yellow-500 to-red-600">
 
                 <div className="absolute inset-0 flex justify-between">
                 {/* Left Box (Red Box) */}
-                <div className="absolute left-0 top-96 w-1/3 h-3/4 bg-red-500 opacity-40 rounded-xl transform rotate-45 z-10"></div>
+                <div className="absolute left-0 top-96 w-1/3 h-3/4 bg-red-500 opacity-60 rounded-xl transform rotate-45 z-10"></div>
                 
-                <div className="absolute right-0 bottom-96 w-1/3 h-3/4 bg-yellow-400 opacity-40 rounded-xl transform rotate-45 z-10"></div>
+                <div className="absolute right-0 bottom-96 w-1/3 h-3/4 bg-yellow-400 opacity-60 rounded-xl transform rotate-45 z-10"></div>
                 </div>
                 {/* Side Boxes for Aesthetic */}
                 <div className="absolute inset-0 flex justify-between">
@@ -73,4 +76,23 @@ export default function Home() {
             </div>
         </div>
     );
+}
+export async function getServerSideProps({ req, res, query }) {
+    const session = await getIronSession(req, res, SESSION_OPTION);
+    // Redirect logged-in users to their account page
+    if (session.username !== undefined) {
+        const queryString = new URLSearchParams(query).toString(); // Preserve query params
+        const destination = session.id
+            ? `/Users/${session.id}${queryString ? `?${queryString}` : ""}`
+            : "/";
+        return {
+            redirect: {
+                destination,
+                permanent: false,
+            },
+        };
+    }
+    return {
+        props: {}, // No props needed for this page
+    };
 }
