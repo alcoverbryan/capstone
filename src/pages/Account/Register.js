@@ -159,15 +159,43 @@ export default function Register() {
     return (
         <div>
             <div
-                className="relative bg-cover bg-center h-screen flex flex-col justify-center items-center overflow-auto"
-                style={{
-                    backgroundImage: "url('/../image/1.jpg')",
-                }}
+                className="bg-cover bg-center overflow-hidden relative h-screen flex flex-col justify-center items-center bg-gradient-to-br from-yellow-500 to-red-600"
             >
-                <div className="absolute inset-0 bg-white opacity-50"></div>
+                <div className="absolute inset-0 flex justify-between">
+                {/* Left Box (Red Box) */}
+                <div className="absolute left-0 top-96 w-1/3 h-3/4 bg-red-500 opacity-40 rounded-xl transform rotate-45 z-10"></div>
+                
+                <div className="absolute right-0 bottom-96 w-1/3 h-3/4 bg-yellow-400 opacity-40 rounded-xl transform rotate-45 z-10"></div>
+                </div>
+                {/* Side Boxes for Aesthetic */}
+                <div className="absolute inset-0 flex justify-between">
+                {/* Left Box (Large Red Box) */}
+                <div className="absolute left-0 top-[50%] w-[180px] h-[180px] bg-red-500 opacity-60 rounded-xl transform rotate-45 z-10"></div>
+                <div className="absolute left-[700px] top-[90%] w-[180px] h-[180px] bg-red-500 opacity-60 rounded-xl transform rotate-45 z-10"></div>
+                
+                {/* Right Box (Large Yellow Box) */}
+                <div className="absolute right-0 bottom-[10%] w-[180px] h-[180px] bg-yellow-400 opacity-60 rounded-xl transform rotate-45 z-10"></div>
+                <div className="absolute right-[700px] bottom-[90%] w-[180px] h-[180px] bg-yellow-400 opacity-60 rounded-xl transform rotate-45 z-10"></div>
+                </div>
 
-                <div className="flex flex-col items-center justify-center gap-10 w-full h-full relative">
-                    <div className="bg-[#F2D323] w-[500px] p-6 rounded-xl">
+                {/* Additional Decorative Boxes */}
+                <div className="absolute inset-0 flex justify-between">
+                {/* Smaller Yellow Boxes */}
+                <div className="absolute left-[5%] top-[45%] w-[50px] h-[50px] bg-yellow-400 opacity-60 rounded-xl transform rotate-45 z-10"></div>
+                <div className="absolute left-[30%] top-[40%] w-[60px] h-[60px] bg-yellow-400 opacity-60 rounded-xl transform rotate-45 z-10"></div>
+                <div className="absolute right-[10%] bottom-[30%] w-[40px] h-[40px] bg-yellow-400 opacity-60 rounded-xl transform rotate-45 z-10"></div>
+                {/* Even smaller Yellow Boxes */}
+                <div className="absolute left-[60%] top-[30%] w-[30px] h-[30px] bg-yellow-400 opacity-60 rounded-xl transform rotate-45 z-10"></div>
+                <div className="absolute right-[20%] top-[60%] w-[20px] h-[20px] bg-yellow-400 opacity-60 rounded-xl transform rotate-45 z-10"></div>
+                </div>
+
+                {/* Background Pattern (Subtle Grid Pattern) */}
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-100 to-indigo-200 opacity-30 z-0">
+                    <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 10 10%22%3E%3Crect width=%2210%22 height=%2210%22 fill=%22none%22 stroke=%22rgba(0, 0, 0, 0.2)%22 stroke-width=%220.8%22 /%3E%3C/svg%3E')] opacity-20"></div>
+                </div>
+
+                <div className="flex flex-col md:flex-row items-center justify-center gap-20 relative z-20">
+                    <div className="bg-[#F2D323] w-[500px] p-6 rounded-xl shadow-2xl">
                         <Image
                             className="mx-auto"
                             src="/image/shell-logo.png"
