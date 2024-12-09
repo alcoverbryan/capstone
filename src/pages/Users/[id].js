@@ -20,8 +20,8 @@ import { SESSION_OPTION } from "../../../lib/session/session_option";
 import PaidAccounts from "../../../lib/components/PaidAccounts";
 import UnpaidAccounts from "../../../lib/components/UnpaidAccounts";
 
-export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, allChargeAccount, allDailySales, allActualPOS, displayAllPending, getDailyDeposit, getPendingUsers}) {
-    console.log(getPendingUsers)
+export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, allChargeAccount, allDailySales, allActualPOS, displayAllPending, getDailyDeposit, getPendingUsers, getDailyDip, getFuelDeliveries, getDailySalesVolumes, getDailySalesPos, getPumpPrices}) {
+    console.log(getPumpPrices)
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
     const router = useRouter();
     const { view } = router.query; 
@@ -57,6 +57,21 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
     const handleDailyDepositSave = () => {
         setSelectedContent("daily_deposit");
         router.push("/?view=daily_deposit"); 
+    };
+
+    const handleDailyDipSave = () => {
+        setSelectedContent("daily_dip");
+        router.push("/?view=daily_dip"); 
+    };
+
+    const handleDailySalesVolumeSave = () => {
+        setSelectedContent("daily_sales_vol");
+        router.push("/?view=daily_sales_vol"); 
+    };
+
+    const handleWetStockSave = () => {
+        setSelectedContent("wet_stock");
+        router.push("/?view=wet_stock"); 
     };
 
     const toggleSidebar = () => {
@@ -247,7 +262,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} displayAllPending={displayAllPending} getPendingUsers={getPendingUsers} hideForUser={hideForUser}/>
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                {/* <WetStock/> */}
+                                <WetStock userLogIn={userLogIn} handleWetStockSave={handleWetStockSave} getPumpPrices={getPumpPrices}/>
                                 <div></div>
                             </div>
                         </div>
@@ -257,7 +272,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} displayAllPending={displayAllPending} getPendingUsers={getPendingUsers} hideForUser={hideForUser} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                            <DailyDip/>
+                            <DailyDip handleDailyDipSave={handleDailyDipSave} userLogIn={userLogIn} getDailyDip={getDailyDip} getFuelDeliveries={getFuelDeliveries} getDailySalesVolumes={getDailySalesVolumes}/>
                                 <div></div>
                             </div>
                         </div>
@@ -267,7 +282,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} displayAllPending={displayAllPending} getPendingUsers={getPendingUsers} hideForUser={hideForUser} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                            <DailySalesVol/>
+                            <DailySalesVol handleDailySalesVolumeSave={handleDailySalesVolumeSave} userLogIn={userLogIn} getDailySalesVolumes={getDailySalesVolumes} getDailySalesPos={getDailySalesPos} getPumpPrices={getPumpPrices}/>
                                 <div></div>
                             </div>
                         </div>
@@ -277,7 +292,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} displayAllPending={displayAllPending} getPendingUsers={getPendingUsers} hideForUser={hideForUser}/>
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                         <div className="text-center">
-                            <Inventory/>
+                            <Inventory getDailyDip={getDailyDip} getPumpPrices={getPumpPrices}/>
                                 <div></div>
                             </div>
                         </div>
@@ -287,7 +302,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} displayAllPending={displayAllPending} getPendingUsers={getPendingUsers} hideForUser={hideForUser}/>
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                         <div className="text-center">
-                            <LossOrGain/>
+                            <LossOrGain getPumpPrices={getPumpPrices} getDailyDip={getDailyDip}/>
                                 <div></div>
                             </div>
                         </div>
@@ -370,6 +385,11 @@ export async function getServerSideProps({req, res, query}) {
     let displayAllPending = await db_conn.getPendingPasswords();
     let getDailyDeposit = await db_conn.getDailyDeposit();
     let getPendingUsers = await db_conn.getPendingUser();
+    let getDailyDip = await db_conn.getDailyDip();
+    let getFuelDeliveries = await db_conn.getFuelDeliveries();
+    let getDailySalesVolumes = await db_conn.getDailySalesVolumes();
+    let getDailySalesPos = await db_conn.getDailySalesPos();
+    let getPumpPrices = await db_conn.getPumpPrices();
 
     return {
         props: {
@@ -383,6 +403,11 @@ export async function getServerSideProps({req, res, query}) {
             displayAllPending: displayAllPending,
             getDailyDeposit: getDailyDeposit,
             getPendingUsers: getPendingUsers,
+            getDailyDip: getDailyDip,
+            getFuelDeliveries: getFuelDeliveries,
+            getDailySalesVolumes: getDailySalesVolumes,
+            getDailySalesPos: getDailySalesPos,
+            getPumpPrices: getPumpPrices,
         },
     }
 }

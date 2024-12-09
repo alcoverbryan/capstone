@@ -24,30 +24,30 @@ export default async function handler(req, res) {
 
 async function handlePostRequest(db_conn, req, res) {
     try {
-        const { user_id, date, shift, rows, subtotal } = req.body;
+        const { user_id, posDate, rows } = req.body;
+
+
+        if (!rows || !Array.isArray(rows)) {
+            return res.status(400).json({ message: "Invalid data format." });
+        }
 
         for (const row of rows) {
-            await db_conn.addDailySales(
+            await db_conn.addDailySalesPos(
                 user_id,
-                date,
-                shift,
-                row.credit || 0,
-                row.charge || 0,
-                row.grab || 0,
-                row.coins || 0,
-                row.bills || 0,
-                row.checks || 0,
-                row.card || 0,
-                row.gcash || 0,
-                row.vouchers || 0,
-                subtotal
+                posDate,
+                row.posVpnPlus || 0,
+                row.posFsg || 0,
+                row.posVpnR || 0,
+                row.posFsd || 0,
+                row.posVpnD || 0,
             );
         }
 
         res.status(200).json({ message: "Data saved successfully.", userId: user_id });
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal Server Error");
+        console.error("Database Error:", error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
+
 
