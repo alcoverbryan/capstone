@@ -79,7 +79,6 @@ export default function Home() {
 }
 export async function getServerSideProps({ req, res, query }) {
     const session = await getIronSession(req, res, SESSION_OPTION);
-    // Redirect logged-in users to their account page
     if (session.username !== undefined) {
         const queryString = new URLSearchParams(query).toString(); // Preserve query params
         const destination = session.id

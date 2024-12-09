@@ -73,6 +73,10 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
         setSelectedContent("wet_stock");
         router.push("/?view=wet_stock"); 
     };
+    const handleUnpaidSave = () => {
+        setSelectedContent("unpaid_account");
+        router.push("/?view=unpaid_account"); 
+    };
 
     const toggleSidebar = () => {
         setIsSidebarExpanded(!isSidebarExpanded);
@@ -341,7 +345,7 @@ export default function Home({userLogIn, allBranch, allFuelPrices, allRegister, 
                         <NavbarMain userLogIn={userLogIn} allBranch={allBranch} handleBackToHome={handleBackToHome} toggleSidebar={toggleSidebar} displayAllPending={displayAllPending} getPendingUsers={getPendingUsers} hideForUser={hideForUser} />
                         <div className="w-full top-12 h-[calc(100vh-4px)] p-8 overflow-auto bg-slate-50">
                             <div className="text-center">
-                                <UnpaidAccounts userLogIn={userLogIn} allChargeAccount={allChargeAccount} handleChargeAccountSave={handleChargeAccountSave}/>
+                                <UnpaidAccounts userLogIn={userLogIn} allChargeAccount={allChargeAccount} handleChargeAccountSave={handleUnpaidSave}/>
                             </div>
                         </div>
                     </div>

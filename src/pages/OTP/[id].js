@@ -136,7 +136,6 @@ export default function Enter_OTP({ UserLogIn }) {
         </div>
     );
 }
-
 export async function getServerSideProps({ req, res, query }) {
   let db_conn = new DBManager(DB_CONF.PATH);
   await db_conn.init();
